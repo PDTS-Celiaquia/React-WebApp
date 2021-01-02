@@ -4,6 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// if in production do not log debug messages
+if (process.env.NODE_ENV === "production") {
+  console.debug = () => {}
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
