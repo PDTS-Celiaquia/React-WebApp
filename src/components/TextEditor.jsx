@@ -1,5 +1,20 @@
+import { Typography, withStyles } from '@material-ui/core';
 import React, { Component } from 'react'
 import RichTextEditor from 'react-rte';
+
+const style = theme => ({
+    label: {
+        marginLeft: theme.spacing(1),
+        marginTop: theme.spacing(1),
+        color: theme.palette.text.secondary,
+    },
+    editor: {
+        border: "none",
+    },
+    innerEditor: {
+        fontFamily: theme.typography.fontFamily
+    }
+})
 
 class TextEditor extends Component {
     constructor(props) {
@@ -27,18 +42,24 @@ class TextEditor extends Component {
         }
     }
 
-
     render() {
-        const { id } = this.props
+        const { id, classes, label, ...restProps } = this.props
         const { value } = this.state
         return (
-            <RichTextEditor
-                id={id}
-                value={value}
-                onChange={this.onChange}
-            />
+            <div {...restProps}>
+                <Typography className={classes.label} variant="body1">
+                    {label}
+                </Typography>
+                <RichTextEditor
+                    editorClassName={classes.innerEditor}
+                    className={classes.editor}
+                    id={id}
+                    value={value}
+                    onChange={this.onChange}
+                />
+            </div>
         )
     }
 }
 
-export default TextEditor
+export default withStyles(style)(TextEditor)
