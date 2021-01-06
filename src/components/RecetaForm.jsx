@@ -119,7 +119,7 @@ class RecetaForm extends Component {
                 <TextField
                     id="descripcion"
                     className={classes.item}
-                    label="Descripcion"
+                    label="Descripción"
                     value={descripcion}
                     onChange={this.onChange}
                     variant="outlined"
