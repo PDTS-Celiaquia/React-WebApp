@@ -1,18 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import App from './App';
+import getStore from './store'
 
 // if in production do not log debug messages
 if (process.env.NODE_ENV === "production") {
-  console.debug = () => {}
+  console.debug = () => { }
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <Provider store={getStore()}>
+      <App />
+    </Provider>,
   document.getElementById('root')
 );
 

@@ -54,12 +54,11 @@ const CustomTextField = withStyles(theme => ({
 )
 
 function IngredienteForm({
+    alimentos = [], unidadesDeMedida = [],
     alimento, cantidad, unidadDeMedida,
     onChangeIngredienteCombo, onChangeIngredienteText, deleteIngrediente,
     classes
 }) {
-    const alimentos = [{ id: 0, nombre: "Soja" }, { id: 1, nombre: "Pollo" }]
-    const unidadesDeMedida = [{ id: 0, nombre: "mg" }, { id: 1, nombre: "g" }, { id: 2, nombre: "kg" }]
     return (
         <div className={classes.container}>
             <Autocomplete
@@ -69,7 +68,7 @@ function IngredienteForm({
                 value={alimento}
                 getOptionSelected={(option, value) => option.id === value.id}
                 onChange={(e, newValue) => onChangeIngredienteCombo("alimento", newValue)}
-                getOptionLabel={(option) => option.nombre}
+                getOptionLabel={(option) => option.nombre ? option.nombre : ""}
                 renderInput={(params) =>
                     <CustomTextField {...params} label="Alimento" />
                 }
@@ -90,7 +89,7 @@ function IngredienteForm({
                 value={unidadDeMedida}
                 getOptionSelected={(option, value) => option.id === value.id}
                 onChange={(e, newValue) => onChangeIngredienteCombo("unidadDeMedida", newValue)}
-                getOptionLabel={(option) => option.nombre}
+                getOptionLabel={(option) => option.nombre ? option.nombre : ""}
                 renderInput={(params) =>
                     <CustomTextField {...params} label="Unidad de Medida" />
                 }
