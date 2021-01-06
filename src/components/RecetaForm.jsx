@@ -17,6 +17,9 @@ const style = theme => ({
             borderWidth: "1px",
             borderColor: theme.palette.primary.main,
             boxShadow: `0px 0px 0px 1px ${theme.palette.primary.main}`,
+        },
+        "&:focus-within p": {
+            color: theme.palette.primary.main
         }
     },
     item: {

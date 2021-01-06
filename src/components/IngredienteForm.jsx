@@ -28,11 +28,12 @@ const style = theme => ({
     }
 })
 
-const CustomTextField = withStyles({
-    centerText: {
-        textAlign: "center"
+const CustomTextField = withStyles(theme => ({
+    caption: {
+        textAlign: "center",
+        color: theme.palette.text.secondary,
     }
-})(
+}))(
     function ({ inputProps, label, classes, ...props }) {
         return (
             <TextField
@@ -41,7 +42,7 @@ const CustomTextField = withStyles({
                 helperText={
                     <Typography
                         variant="caption"
-                          className={classes.centerText}
+                        className={classes.caption}
                         display="block"
                     >
                         {label}

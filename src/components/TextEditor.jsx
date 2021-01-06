@@ -20,7 +20,7 @@ class TextEditor extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: RichTextEditor.createEmptyValue(),
+            value: RichTextEditor.createValueFromString("<p></p>", "html"),
         }
 
         this.onChange = this.onChange.bind(this)
