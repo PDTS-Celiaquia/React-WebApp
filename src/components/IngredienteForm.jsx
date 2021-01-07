@@ -1,4 +1,4 @@
-import { IconButton, TextField, Typography, withStyles } from '@material-ui/core'
+import { IconButton, TextField, withStyles } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Autocomplete } from '@material-ui/lab'
 import React from 'react'
@@ -31,7 +31,21 @@ function CustomTextField(props) {
     return (
         <TextField
             variant="outlined"
+            required
             {...props}
+        />
+    )
+}
+
+function CustomAutocomplete({ id, label, onChangeIngredienteCombo, ...restProps }) {
+    return (
+        <Autocomplete
+            onChange={(e, newValue) => onChangeIngredienteCombo(id, newValue)}
+            getOptionLabel={(option) => option.nombre ? option.nombre : ""}
+            renderInput={(params) =>
+                <CustomTextField {...params} label={label} />
+            }
+            {...restProps}
         />
     )
 }
@@ -44,17 +58,14 @@ function IngredienteForm({
 }) {
     return (
         <div className={classes.container}>
-            <Autocomplete
+            <CustomAutocomplete
                 id="alimento"
                 className={classes.alimento}
                 options={alimentos}
                 value={alimento}
+                label="Alimentos"
                 getOptionSelected={(option, value) => option.numero === value.numero}
-                onChange={(e, newValue) => onChangeIngredienteCombo("alimento", newValue)}
-                getOptionLabel={(option) => option.nombre ? option.nombre : ""}
-                renderInput={(params) =>
-                    <CustomTextField {...params} label="Alimento" />
-                }
+                onChangeIngredienteCombo={onChangeIngredienteCombo}
             />
             <CustomTextField
                 id="cantidad"
@@ -65,17 +76,14 @@ function IngredienteForm({
                 type="number"
                 inputProps={{ min: 0 }}
             />
-            <Autocomplete
+            <CustomAutocomplete
                 id="unidadDeMedida"
                 className={classes.unidadDeMedida}
                 options={unidadesDeMedida}
                 value={unidadDeMedida}
+                label="Unidades de Medida"
                 getOptionSelected={(option, value) => option.id === value.id}
-                onChange={(e, newValue) => onChangeIngredienteCombo("unidadDeMedida", newValue)}
-                getOptionLabel={(option) => option.nombre ? option.nombre : ""}
-                renderInput={(params) =>
-                    <CustomTextField {...params} label="Unidad de Medida" />
-                }
+                onChangeIngredienteCombo={onChangeIngredienteCombo}
             />
             <IconButton onClick={deleteIngrediente}>
                 <DeleteIcon color="error" />

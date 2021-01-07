@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Container, TextField, withStyles } from '@material-ui/core'
+import { Button, Container, TextField, withStyles } from '@material-ui/core'
 import TextEditor from './TextEditor'
 import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
+import { sendReceta } from '../store/actions';
 
 const style = theme => ({
     section: {
@@ -33,8 +34,12 @@ const style = theme => ({
         },
     },
     item: {
-        marginTop: theme.spacing(2)
-    }
+        marginTop: theme.spacing(2),
+    },
+    send: {
+        float: "right",
+        marginTop: theme.spacing(2),
+    },
 })
 
 class RecetaForm extends Component {
@@ -54,6 +59,7 @@ class RecetaForm extends Component {
         this.onChangeIngredienteText = this.onChangeIngredienteText.bind(this)
         this.deleteIngrediente = this.deleteIngrediente.bind(this)
         this.addIngrediente = this.addIngrediente.bind(this)
+        this.sendReceta = this.sendReceta.bind(this)
     }
 
     onChange(e) {
@@ -109,53 +115,73 @@ class RecetaForm extends Component {
         }))
     }
 
+    sendReceta(e) {
+        e.preventDefault()
+        const { nombre, descripcion, instrucciones, ingredientes } = this.state
+        this.props.sendReceta({nombre, descripcion, instrucciones, ingredientes})
+    }
+
     render() {
         const { nombre, descripcion, ingredientes } = this.state
         const { classes } = this.props
         return (
             <Container maxWidth="md">
-                <TextField
-                    id="nombre"
-                    className={classes.item}
-                    label="Nombre"
-                    value={nombre}
-                    onChange={this.onChange}
-                    variant="outlined"
-                    fullWidth
-                />
-                <TextField
-                    id="descripcion"
-                    className={classes.item}
-                    label="Descripción"
-                    value={descripcion}
-                    onChange={this.onChange}
-                    variant="outlined"
-                    multiline
-                    fullWidth
-                />
-                <TextEditor
-                    className={classes.section}
-                    id="instrucciones"
-                    label="Instrucciones"
-                    onChange={this.onChange}
-                />
-                <IngredientesForm
-                    className={classes.section}
-                    id="ingredientes"
-                    label="Ingredientes"
-                    ingredientes={ingredientes}
-                    onChangeIngredienteCombo={this.onChangeIngredienteCombo}
-                    onChangeIngredienteText={this.onChangeIngredienteText}
-                    addIngrediente={this.addIngrediente}
-                    deleteIngrediente={this.deleteIngrediente}
-                />
+                <form onSubmit={this.sendReceta}>
+                    <TextField
+                        id="nombre"
+                        className={classes.item}
+                        label="Nombre"
+                        value={nombre}
+                        onChange={this.onChange}
+                        variant="outlined"
+                        required
+                        fullWidth
+                    />
+                    <TextField
+                        id="descripcion"
+                        className={classes.item}
+                        label="Descripción"
+                        value={descripcion}
+                        onChange={this.onChange}
+                        variant="outlined"
+                        multiline
+                        required
+                        fullWidth
+                    />
+                    <TextEditor
+                        className={classes.section}
+                        id="instrucciones"
+                        label="Instrucciones"
+                        onChange={this.onChange}
+                    />
+                    <IngredientesForm
+                        className={classes.section}
+                        id="ingredientes"
+                        label="Ingredientes"
+                        ingredientes={ingredientes}
+                        onChangeIngredienteCombo={this.onChangeIngredienteCombo}
+                        onChangeIngredienteText={this.onChangeIngredienteText}
+                        addIngrediente={this.addIngrediente}
+                        deleteIngrediente={this.deleteIngrediente}
+                    />
+                    <Button
+                        className={classes.send}
+                        color="primary"
+                        variant="contained"
+                        type="submit"
+                    >
+                        Guardar
+                </Button>
+                </form>
             </Container>
         )
     }
 }
 
-const mapStateToProps = state => ({ })
+const mapStateToProps = state => ({})
 
-const mapDispatchToProps = dispatch => ({ })
+const mapDispatchToProps = dispatch => ({
+    sendReceta: receta => dispatch(sendReceta(receta)),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(RecetaForm))

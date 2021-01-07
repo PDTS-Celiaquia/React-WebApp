@@ -3,15 +3,20 @@ import { typeDefs } from './actions';
 const {
     requestAlimentos, successAlimentos, errorAlimentos,
     requestUnidades, successUnidades, errorUnidades,
+    requestSendReceta, successSendReceta, errorSendReceta,
 } = typeDefs
 
 const initState = {
     alimentos: null,
-    unidadesDeMedida: null,
     fetchingAlimentos: false,
-    fetchingUnidades: false,
     errorAlimentos: false,
+    
+    unidadesDeMedida: null,
+    fetchingUnidades: false,
     errorUnidades: false,
+
+    sendingReceta: false,
+    errorReceta: false,
 }
 
 export default function reducer(state = initState, { type, payload, error }) {
@@ -34,6 +39,15 @@ export default function reducer(state = initState, { type, payload, error }) {
 
         case errorUnidades:
             return { ...state, fetchingUnidades: false, errorUnidades: true, message: error }
+
+        case requestSendReceta:
+            return { ...state, sendingReceta: true, errorReceta: false }
+
+        case successSendReceta:
+            return { ...state, sendingReceta: false }
+
+        case errorSendReceta:
+            return { ...state, sendingReceta: false, errorReceta: true, message: error }
 
         default:
             return state

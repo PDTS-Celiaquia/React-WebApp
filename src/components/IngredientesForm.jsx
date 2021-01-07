@@ -21,7 +21,6 @@ const style = theme => ({
 })
 
 class IngredientesForm extends Component {
-
     componentDidMount() {
         const {
             alimentos, unidadesDeMedida, getAlimentos, getUnidades
@@ -39,15 +38,15 @@ class IngredientesForm extends Component {
             addIngrediente, deleteIngrediente,
             classes, ...restProps
         } = this.props
+
         return (
             <div {...restProps} >
                 <div className={classes.container}>
                     {label && <Typography className="titulo" variant="body1" children={label} />}
-                    <div classname={classes.ingredientesContainer}>
+                    <div className={classes.ingredientesContainer}>
                         {Object.entries(ingredientes).map(([key, ingrediente]) => (
                             <IngredienteForm
                                 key={key}
-                                {...ingrediente}
                                 alimentos={alimentos}
                                 unidadesDeMedida={unidadesDeMedida}
                                 onChangeIngredienteCombo={
@@ -57,8 +56,8 @@ class IngredientesForm extends Component {
                                     (e) => onChangeIngredienteText(key, e)
                                 }
                                 deleteIngrediente={() => deleteIngrediente(key)}
+                                {...ingrediente}
                             />
-
                         ))}
                     </div>
                     <div className={classes.addContainer}>
@@ -71,6 +70,7 @@ class IngredientesForm extends Component {
         )
     }
 }
+
 const mapStateToProps = state => ({
     alimentos: state.alimentos,
     unidadesDeMedida: state.unidadesDeMedida
