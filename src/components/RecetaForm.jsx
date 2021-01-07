@@ -1,34 +1,40 @@
 import React, { Component } from 'react'
-import { Container, IconButton, TextField, withStyles } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add';
+import { Container, TextField, withStyles } from '@material-ui/core'
 import TextEditor from './TextEditor'
-import IngredienteForm from './IngredienteForm';
-import { getAlimentos, getUnidades } from '../store/actions';
 import { connect } from 'react-redux';
+import IngredientesForm from './IngredientesForm';
 
 const style = theme => ({
     section: {
         marginTop: theme.spacing(2),
-        padding: theme.spacing(1),
+        padding: theme.spacing(2),
         borderRadius: "5px",
         border: `1px solid ${theme.palette.grey["400"]}`,
+        // colorea el borde negro cuando el mouse se posiciona sobre la region
         "&:hover": {
             borderColor: "black",
         },
+        // colorea el borde y lo agranda cuando está seleccionado
         "&:focus-within": {
             borderWidth: "1px",
             borderColor: theme.palette.primary.main,
             boxShadow: `0px 0px 0px 1px ${theme.palette.primary.main}`,
         },
-        "&:focus-within p": {
+        // colorea el titulo de la región
+        "& .titulo": {
+            color: theme.palette.text.secondary,
+        },
+        // colorea el titulo de la región cuando está seleccionado
+        "&:focus-within .titulo": {
             color: theme.palette.primary.main
-        }
+        },
+        // colorea los iconos (que tienen la clase icon) de la región cuando está seleccionado
+        "&:focus-within .icon": {
+            fill: theme.palette.primary.main
+        },
     },
     item: {
         marginTop: theme.spacing(2)
-    },
-    addContainer: {
-        textAlign: 'center'
     }
 })
 
@@ -49,16 +55,6 @@ class RecetaForm extends Component {
         this.onChangeIngredienteText = this.onChangeIngredienteText.bind(this)
         this.deleteIngrediente = this.deleteIngrediente.bind(this)
         this.addIngrediente = this.addIngrediente.bind(this)
-    }
-
-    componentDidMount() {
-        const {alimentos, unidadesDeMedida, getAlimentos, getUnidades } = this.props;
-        if (!alimentos) {
-            getAlimentos()
-        }
-        if (!unidadesDeMedida) {
-            getUnidades()
-        }
     }
 
     onChange(e) {
@@ -116,7 +112,7 @@ class RecetaForm extends Component {
 
     render() {
         const { nombre, descripcion, ingredientes } = this.state
-        const { alimentos, unidadesDeMedida, classes } = this.props
+        const { classes } = this.props
         return (
             <Container maxWidth="md">
                 <TextField
@@ -144,40 +140,23 @@ class RecetaForm extends Component {
                     label="Instrucciones"
                     onChange={this.onChange}
                 />
-                <div className={`${classes.section} ${classes.addContainer}`}>
-                    {Object.entries(ingredientes).map(([key, ingrediente]) => (
-                        <IngredienteForm
-                            key={key}
-                            {...ingrediente}
-                            alimentos={alimentos}
-                            unidadesDeMedida={unidadesDeMedida}
-                            onChangeIngredienteCombo={
-                                (e, newValue) => this.onChangeIngredienteCombo(key, e, newValue)
-                            }
-                            onChangeIngredienteText={
-                                (e) => this.onChangeIngredienteText(key, e)
-                            }
-                            deleteIngrediente={() => this.deleteIngrediente(key)}
-                        />
-
-                    ))}
-                    <IconButton className={classes.addContainer} onClick={this.addIngrediente}>
-                        <AddIcon className={classes.add} color="primary" />
-                    </IconButton>
-                </div>
+                <IngredientesForm
+                    className={classes.section}
+                    id="ingredientes"
+                    label="Ingredientes"
+                    ingredientes={ingredientes}
+                    onChangeIngredienteCombo={this.onChangeIngredienteCombo}
+                    onChangeIngredienteText={this.onChangeIngredienteText}
+                    addIngrediente={this.addIngrediente}
+                    deleteIngrediente={this.deleteIngrediente}
+                />
             </Container>
         )
     }
 }
 
-const mapStateToProps = state => ({
-    alimentos: state.alimentos,
-    unidadesDeMedida: state.unidadesDeMedida
-})
+const mapStateToProps = state => ({ })
 
-const mapDispatchToProps = dispatch => ({
-    getAlimentos: () => dispatch(getAlimentos()),
-    getUnidades: () => dispatch(getUnidades())
-})
+const mapDispatchToProps = dispatch => ({ })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(RecetaForm))

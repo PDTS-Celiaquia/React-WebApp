@@ -10,9 +10,9 @@ const style = theme => ({
         marginTop: theme.spacing(2),
     },
     alimento: {
-        width: "40%",
+        width: "50%",
         float: "left",
-        marginLeft: theme.spacing(3),
+        // marginLeft: theme.spacing(3),
         marginRight: theme.spacing(3)
     },
     cantidad: {
@@ -22,36 +22,20 @@ const style = theme => ({
     unidadDeMedida: {
         width: "30%",
         float: "right",
-        marginRight: theme.spacing(3)
+        marginRight: theme.spacing(1)
     },
     delete: {
     }
 })
 
-const CustomTextField = withStyles(theme => ({
-    caption: {
-        textAlign: "center",
-        color: theme.palette.text.secondary,
-    }
-}))(
-    function ({ inputProps, label, classes, ...props }) {
-        return (
-            <TextField
-                {...props}
-                inputProps={{ style: { textAlign: 'center' }, ...inputProps }}
-                helperText={
-                    <Typography
-                        variant="caption"
-                        className={classes.caption}
-                        display="block"
-                    >
-                        {label}
-                    </Typography>
-                }
-            />
-        )
-    }
-)
+function CustomTextField(props) {
+    return (
+        <TextField
+            variant="outlined"
+            {...props}
+        />
+    )
+}
 
 function IngredienteForm({
     alimentos = [], unidadesDeMedida = [],
@@ -66,7 +50,7 @@ function IngredienteForm({
                 className={classes.alimento}
                 options={alimentos}
                 value={alimento}
-                getOptionSelected={(option, value) => option.id === value.id}
+                getOptionSelected={(option, value) => option.numero === value.numero}
                 onChange={(e, newValue) => onChangeIngredienteCombo("alimento", newValue)}
                 getOptionLabel={(option) => option.nombre ? option.nombre : ""}
                 renderInput={(params) =>

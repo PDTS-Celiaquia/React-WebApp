@@ -3,13 +3,9 @@ import React, { Component } from 'react'
 import RichTextEditor from 'react-rte';
 
 const style = theme => ({
-    label: {
-        marginLeft: theme.spacing(1),
-        marginTop: theme.spacing(1),
-        color: theme.palette.text.secondary,
-    },
     editor: {
         border: "none",
+        margin: -theme.spacing(1)
     },
     innerEditor: {
         fontFamily: theme.typography.fontFamily
@@ -46,10 +42,8 @@ class TextEditor extends Component {
         const { id, classes, label, ...restProps } = this.props
         const { value } = this.state
         return (
-            <div {...restProps}>
-                <Typography className={classes.label} variant="body1">
-                    {label}
-                </Typography>
+            <div {...restProps} >
+                {label && <Typography className="titulo" variant="body1" children={label} />}
                 <RichTextEditor
                     editorClassName={classes.innerEditor}
                     className={classes.editor}
