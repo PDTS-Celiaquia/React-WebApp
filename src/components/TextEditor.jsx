@@ -3,9 +3,13 @@ import React, { Component } from 'react'
 import RichTextEditor from 'react-rte';
 
 const style = theme => ({
+    container: {
+        margin: theme.spacing(2),
+    },
     editor: {
         border: "none",
-        margin: -theme.spacing(1)
+        marginRight: -theme.spacing(1),
+        marginLeft: -theme.spacing(1),
     },
     innerEditor: {
         fontFamily: theme.typography.fontFamily
@@ -39,18 +43,20 @@ class TextEditor extends Component {
     }
 
     render() {
-        const { id, classes, label, ...restProps } = this.props
+        const { id, label, classes, ...restProps } = this.props
         const { value } = this.state
         return (
             <div {...restProps} >
-                {label && <Typography className="titulo" variant="body1" children={label} />}
-                <RichTextEditor
-                    editorClassName={classes.innerEditor}
-                    className={classes.editor}
-                    id={id}
-                    value={value}
-                    onChange={this.onChange}
-                />
+                <div className={classes.container}>
+                    {label && <Typography className="titulo" variant="body1" children={label} />}
+                    <RichTextEditor
+                        editorClassName={classes.innerEditor}
+                        className={classes.editor}
+                        id={id}
+                        value={value}
+                        onChange={this.onChange}
+                    />
+                </div>
             </div>
         )
     }

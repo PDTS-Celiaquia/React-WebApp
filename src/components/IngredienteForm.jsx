@@ -7,17 +7,16 @@ const style = theme => ({
     container: {
         width: "100%",
         display: "flex",
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(1),
     },
     alimento: {
         width: "50%",
         float: "left",
-        // marginLeft: theme.spacing(3),
-        marginRight: theme.spacing(3)
+        marginRight: theme.spacing(2)
     },
     cantidad: {
         flexGrow: 1,
-        marginRight: theme.spacing(3)
+        marginRight: theme.spacing(2)
     },
     unidadDeMedida: {
         width: "30%",

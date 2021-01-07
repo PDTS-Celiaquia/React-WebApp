@@ -6,8 +6,17 @@ import { connect } from 'react-redux';
 import { getAlimentos, getUnidades } from '../store/actions';
 
 const style = theme => ({
+    container: {
+        margin: theme.spacing(2),
+        marginRight: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+    },
+    ingredientesContainer: {
+        marginTop: theme.spacing(2),
+    },
     addContainer: {
-        textAlign: "center"
+        textAlign: "center",
+        marginTop: theme.spacing(1),
     },
 })
 
@@ -32,27 +41,31 @@ class IngredientesForm extends Component {
         } = this.props
         return (
             <div {...restProps} >
-                {label && <Typography className="titulo" variant="body1" children={label} />}
-                {Object.entries(ingredientes).map(([key, ingrediente]) => (
-                    <IngredienteForm
-                        key={key}
-                        {...ingrediente}
-                        alimentos={alimentos}
-                        unidadesDeMedida={unidadesDeMedida}
-                        onChangeIngredienteCombo={
-                            (e, newValue) => onChangeIngredienteCombo(key, e, newValue)
-                        }
-                        onChangeIngredienteText={
-                            (e) => onChangeIngredienteText(key, e)
-                        }
-                        deleteIngrediente={() => deleteIngrediente(key)}
-                    />
+                <div className={classes.container}>
+                    {label && <Typography className="titulo" variant="body1" children={label} />}
+                    <div classname={classes.ingredientesContainer}>
+                        {Object.entries(ingredientes).map(([key, ingrediente]) => (
+                            <IngredienteForm
+                                key={key}
+                                {...ingrediente}
+                                alimentos={alimentos}
+                                unidadesDeMedida={unidadesDeMedida}
+                                onChangeIngredienteCombo={
+                                    (e, newValue) => onChangeIngredienteCombo(key, e, newValue)
+                                }
+                                onChangeIngredienteText={
+                                    (e) => onChangeIngredienteText(key, e)
+                                }
+                                deleteIngrediente={() => deleteIngrediente(key)}
+                            />
 
-                ))}
-                <div className={classes.addContainer}>
-                    <IconButton onClick={addIngrediente}>
-                        <AddIcon className="icon" />
-                    </IconButton>
+                        ))}
+                    </div>
+                    <div className={classes.addContainer}>
+                        <IconButton onClick={addIngrediente}>
+                            <AddIcon className="icon" />
+                        </IconButton>
+                    </div>
                 </div>
             </div>
         )

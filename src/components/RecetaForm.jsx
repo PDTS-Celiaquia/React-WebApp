@@ -7,7 +7,6 @@ import IngredientesForm from './IngredientesForm';
 const style = theme => ({
     section: {
         marginTop: theme.spacing(2),
-        padding: theme.spacing(2),
         borderRadius: "5px",
         border: `1px solid ${theme.palette.grey["400"]}`,
         // colorea el borde negro cuando el mouse se posiciona sobre la region
