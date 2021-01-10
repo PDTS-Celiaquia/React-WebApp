@@ -4,35 +4,9 @@ import TextEditor from './TextEditor'
 import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
 import { sendReceta } from '../store/actions';
+import BorderedDiv from './BorderedDiv';
 
 const style = theme => ({
-    section: {
-        marginTop: theme.spacing(2),
-        borderRadius: "5px",
-        border: `1px solid ${theme.palette.grey["400"]}`,
-        // colorea el borde negro cuando el mouse se posiciona sobre la region
-        "&:hover": {
-            borderColor: "black",
-        },
-        // colorea el borde y lo agranda cuando está seleccionado
-        "&:focus-within": {
-            borderWidth: "1px",
-            borderColor: theme.palette.primary.main,
-            boxShadow: `0px 0px 0px 1px ${theme.palette.primary.main}`,
-        },
-        // colorea el titulo de la región
-        "& .titulo": {
-            color: theme.palette.text.secondary,
-        },
-        // colorea el titulo de la región cuando está seleccionado
-        "&:focus-within .titulo": {
-            color: theme.palette.primary.main
-        },
-        // colorea los iconos (que tienen la clase icon) de la región cuando está seleccionado
-        "&:focus-within .icon": {
-            fill: theme.palette.primary.main
-        },
-    },
     item: {
         marginTop: theme.spacing(2),
     },
@@ -118,7 +92,7 @@ class RecetaForm extends Component {
     sendReceta(e) {
         e.preventDefault()
         const { nombre, descripcion, instrucciones, ingredientes } = this.state
-        this.props.sendReceta({nombre, descripcion, instrucciones, ingredientes})
+        this.props.sendReceta({ nombre, descripcion, instrucciones, ingredientes })
     }
 
     render() {
@@ -148,30 +122,31 @@ class RecetaForm extends Component {
                         required
                         fullWidth
                     />
-                    <TextEditor
-                        className={classes.section}
-                        id="instrucciones"
-                        label="Instrucciones"
-                        onChange={this.onChange}
-                    />
-                    <IngredientesForm
-                        className={classes.section}
-                        id="ingredientes"
-                        label="Ingredientes"
-                        ingredientes={ingredientes}
-                        onChangeIngredienteCombo={this.onChangeIngredienteCombo}
-                        onChangeIngredienteText={this.onChangeIngredienteText}
-                        addIngrediente={this.addIngrediente}
-                        deleteIngrediente={this.deleteIngrediente}
-                    />
+                    <BorderedDiv className={classes.item}>
+                        <TextEditor
+                            id="instrucciones"
+                            label="Instrucciones"
+                            onChange={this.onChange}
+                        />
+                    </BorderedDiv>
+                    <BorderedDiv className={classes.item}>
+                        <IngredientesForm
+                            id="ingredientes"
+                            label="Ingredientes"
+                            ingredientes={ingredientes}
+                            onChangeIngredienteCombo={this.onChangeIngredienteCombo}
+                            onChangeIngredienteText={this.onChangeIngredienteText}
+                            addIngrediente={this.addIngrediente}
+                            deleteIngrediente={this.deleteIngrediente}
+                        />
+                    </BorderedDiv>
                     <Button
                         className={classes.send}
                         color="primary"
                         variant="contained"
                         type="submit"
-                    >
-                        Guardar
-                </Button>
+                        children="Guardar"
+                    />
                 </form>
             </Container>
         )

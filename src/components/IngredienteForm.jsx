@@ -22,8 +22,6 @@ const style = theme => ({
         width: "30%",
         float: "right",
         marginRight: theme.spacing(1)
-    },
-    delete: {
     }
 })
 

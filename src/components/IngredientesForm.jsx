@@ -36,35 +36,33 @@ class IngredientesForm extends Component {
             label, ingredientes, alimentos, unidadesDeMedida,
             onChangeIngredienteCombo, onChangeIngredienteText,
             addIngrediente, deleteIngrediente,
-            classes, ...restProps
+            classes
         } = this.props
 
         return (
-            <div {...restProps} >
-                <div className={classes.container}>
-                    {label && <Typography className="titulo" variant="body1" children={label} />}
-                    <div className={classes.ingredientesContainer}>
-                        {Object.entries(ingredientes).map(([key, ingrediente]) => (
-                            <IngredienteForm
-                                key={key}
-                                alimentos={alimentos}
-                                unidadesDeMedida={unidadesDeMedida}
-                                onChangeIngredienteCombo={
-                                    (e, newValue) => onChangeIngredienteCombo(key, e, newValue)
-                                }
-                                onChangeIngredienteText={
-                                    (e) => onChangeIngredienteText(key, e)
-                                }
-                                deleteIngrediente={() => deleteIngrediente(key)}
-                                {...ingrediente}
-                            />
-                        ))}
-                    </div>
-                    <div className={classes.addContainer}>
-                        <IconButton onClick={addIngrediente}>
-                            <AddIcon className="icon" />
-                        </IconButton>
-                    </div>
+            <div className={classes.container}>
+                {label && <Typography className="titulo" variant="body1" children={label} />}
+                <div className={classes.ingredientesContainer}>
+                    {Object.entries(ingredientes).map(([key, ingrediente]) => (
+                        <IngredienteForm
+                            key={key}
+                            alimentos={alimentos}
+                            unidadesDeMedida={unidadesDeMedida}
+                            onChangeIngredienteCombo={
+                                (e, newValue) => onChangeIngredienteCombo(key, e, newValue)
+                            }
+                            onChangeIngredienteText={
+                                (e) => onChangeIngredienteText(key, e)
+                            }
+                            deleteIngrediente={() => deleteIngrediente(key)}
+                            {...ingrediente}
+                        />
+                    ))}
+                </div>
+                <div className={classes.addContainer}>
+                    <IconButton onClick={addIngrediente}>
+                        <AddIcon className="icon" />
+                    </IconButton>
                 </div>
             </div>
         )

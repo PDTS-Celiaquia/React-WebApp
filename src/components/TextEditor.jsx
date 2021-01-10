@@ -43,20 +43,18 @@ class TextEditor extends Component {
     }
 
     render() {
-        const { id, label, classes, ...restProps } = this.props
+        const { id, label, classes } = this.props
         const { value } = this.state
         return (
-            <div {...restProps} >
-                <div className={classes.container}>
-                    {label && <Typography className="titulo" variant="body1" children={label} />}
-                    <RichTextEditor
-                        editorClassName={classes.innerEditor}
-                        className={classes.editor}
-                        id={id}
-                        value={value}
-                        onChange={this.onChange}
-                    />
-                </div>
+            <div className={classes.container}>
+                {label && <Typography className="titulo" variant="body1" children={label} />}
+                <RichTextEditor
+                    editorClassName={classes.innerEditor}
+                    className={classes.editor}
+                    id={id}
+                    value={value}
+                    onChange={this.onChange}
+                />
             </div>
         )
     }
