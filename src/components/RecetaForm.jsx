@@ -21,11 +21,12 @@ class RecetaForm extends Component {
         super(props)
 
         this.state = {
-            nombre: "",
-            descripcion: "",
-            instrucciones: "",
-            cantIngredientes: 0,
-            ingredientes: {},
+            receta: {
+                nombre: "",
+                descripcion: "",
+                instrucciones: "",
+                ingredientes: []
+            },
         }
 
         this.onChange = this.onChange.bind(this)
@@ -42,61 +43,73 @@ class RecetaForm extends Component {
         this.setState({ [id]: value })
     }
 
-    onChangeIngredienteCombo(key, id, value) {
-        this.setState((state) => ({
-            ingredientes: {
-                ...state.ingredientes,
-                [key]: {
-                    ...state.ingredientes[key],
-                    [id]: value
-                }
+    onChangeIngredienteCombo(index, id, value) {
+        const ingredientes = [...this.state.receta.ingredientes]
+        ingredientes[index] = {
+            ...ingredientes[index],
+            [id]: value
+        }
+        this.setState(state => ({
+            receta: {
+                ...state.receta,
+                ingredientes,
             },
         }))
     }
 
-    onChangeIngredienteText(key, e) {
+    onChangeIngredienteText(index, e) {
         const { id, value } = e.target
+        const ingredientes = [...this.state.receta.ingredientes]
+        ingredientes[index] = {
+            ...ingredientes[index],
+            [id]: value
+        }
 
-        this.setState((state) => ({
-            ingredientes: {
-                ...state.ingredientes,
-                [key]: {
-                    ...state.ingredientes[key],
-                    [id]: value
-                }
+        this.setState(state => ({
+            receta: {
+                ...state.receta,
+                ingredientes,
             },
         }))
     }
 
-    deleteIngrediente(key) {
-        const ingredientes = { ...this.state.ingredientes }
-        delete ingredientes[key]
+    deleteIngrediente(index) {
+        const ingredientes = this.state.receta.ingredientes
 
-        this.setState({ ingredientes })
+        this.setState(state => ({
+            receta: {
+                ...state.receta,
+                ingredientes: [
+                    ...ingredientes.slice(0,index),
+                    ...ingredientes.slice(index+1)
+                ]
+            }
+        }))
     }
 
     addIngrediente(e) {
-        this.setState((state) => ({
-            ingredientes: {
-                ...state.ingredientes,
-                [state.cantIngredientes]: {
-                    alimento: "",
-                    cantidad: "",
-                    unidadDeMedida: ""
-                }
-            },
-            cantIngredientes: state.cantIngredientes + 1
+        this.setState(state => ({
+            receta: {
+                ...state.receta,
+                ingredientes: [
+                    ...state.receta.ingredientes,
+                    {
+                        alimento: "",
+                        cantidad: "",
+                        unidadDeMedida: ""
+                    }
+                ]
+            }
         }))
     }
 
     sendReceta(e) {
         e.preventDefault()
-        const { nombre, descripcion, instrucciones, ingredientes } = this.state
-        this.props.sendReceta({ nombre, descripcion, instrucciones, ingredientes })
+        this.props.sendReceta(this.state.receta)
     }
 
     render() {
-        const { nombre, descripcion, ingredientes } = this.state
+        const { nombre, descripcion, ingredientes } = this.state.receta
         const { classes } = this.props
         return (
             <Container maxWidth="md">

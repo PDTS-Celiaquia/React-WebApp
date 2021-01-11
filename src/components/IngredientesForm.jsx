@@ -43,18 +43,18 @@ class IngredientesForm extends Component {
             <div className={classes.container}>
                 {label && <Typography className="titulo" variant="body1" children={label} />}
                 <div className={classes.ingredientesContainer}>
-                    {Object.entries(ingredientes).map(([key, ingrediente]) => (
+                    {ingredientes.map((ingrediente, index) => (
                         <IngredienteForm
-                            key={key}
+                            key={index}
                             alimentos={alimentos}
                             unidadesDeMedida={unidadesDeMedida}
                             onChangeIngredienteCombo={
-                                (e, newValue) => onChangeIngredienteCombo(key, e, newValue)
+                                (e, newValue) => onChangeIngredienteCombo(index, e, newValue)
                             }
                             onChangeIngredienteText={
-                                (e) => onChangeIngredienteText(key, e)
+                                (e) => onChangeIngredienteText(index, e)
                             }
-                            deleteIngrediente={() => deleteIngrediente(key)}
+                            deleteIngrediente={() => deleteIngrediente(index)}
                             {...ingrediente}
                         />
                     ))}
