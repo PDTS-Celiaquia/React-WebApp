@@ -5,6 +5,10 @@ export const typeDefs = {
     successAlimentos: "SUCCESS_ALIMENTOS",
     errorAlimentos: "ERROR_ALIMENTOS",
 
+    requestRecetas: "REQUEST_RECETAS",
+    successRecetas: "SUCCESS_RECETAS",
+    errorRecetas: "ERROR_RECETAS",
+
     requestUnidades: "REQUEST_UNIDADES",
     successUnidades: "SUCCESS_UNIDADES",
     errorUnidades: "ERROR_UNIDADES",
@@ -16,6 +20,7 @@ export const typeDefs = {
 
 const {
     requestAlimentos, successAlimentos, errorAlimentos,
+    requestRecetas, successRecetas, errorRecetas,
     requestUnidades, successUnidades, errorUnidades,
     requestSendReceta, successSendReceta, errorSendReceta,
 } = typeDefs
@@ -26,6 +31,16 @@ export function getAlimentos() {
         axiosInstance.get('/alimento').then(
             response => dispatch({ type: successAlimentos, payload: response }),
             error => dispatch({ type: errorAlimentos, error })
+        )
+    }
+}
+
+export function getRecetas() {
+    return dispatch => {
+        dispatch({ type: requestRecetas })
+        axiosInstance.get('/receta').then(
+            response => dispatch({ type: successRecetas, payload: response }),
+            error => dispatch({ type: errorRecetas, error })
         )
     }
 }
@@ -43,9 +58,11 @@ export function getUnidades() {
 export function sendReceta(receta) {
     return dispatch => {
         dispatch({ type: requestSendReceta })
-        axiosInstance.post('/receta', receta).then(
+        const route = `/receta${typeof receta.idReceta !== "undefined" ? '/modificar': ''}`
+        // si la receta tiene id es una modificación
+        axiosInstance.post(route, receta).then(
             () => dispatch({ type: successSendReceta }),
-            error => dispatch({ type: errorSendReceta, error})
+            error => dispatch({ type: errorSendReceta, error })
         )
     }
 }

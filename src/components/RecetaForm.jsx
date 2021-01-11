@@ -3,8 +3,9 @@ import { Button, Container, TextField, withStyles } from '@material-ui/core'
 import TextEditor from './TextEditor'
 import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
-import { sendReceta } from '../store/actions';
 import BorderedDiv from './BorderedDiv';
+import { findRecetaById } from '../helpers/findReceta';
+import { getAlimentos, getUnidades, sendReceta } from '../store/actions';
 
 const style = theme => ({
     item: {
@@ -19,22 +20,14 @@ const style = theme => ({
 class RecetaForm extends Component {
     constructor(props) {
         super(props)
-        let receta
 
-        // si me envian una receta por parametro la setteo como inicial
-        if (props.receta) {
-            receta = props.receta
-        } else {
-            receta = {
+        this.state = {
+            receta: {
                 nombre: "",
                 descripcion: "",
                 instrucciones: "",
                 ingredientes: []
-            }
-        }
-
-        this.state = {
-            receta,
+            },
         }
 
         this.onChange = this.onChange.bind(this)
@@ -43,6 +36,23 @@ class RecetaForm extends Component {
         this.deleteIngrediente = this.deleteIngrediente.bind(this)
         this.addIngrediente = this.addIngrediente.bind(this)
         this.sendReceta = this.sendReceta.bind(this)
+    }
+
+    componentDidMount() {
+        const {
+            recetas, alimentos, unidadesDeMedida, getAlimentos, getUnidades
+        } = this.props;
+
+        if (!alimentos) getAlimentos()
+
+        if (!unidadesDeMedida) getUnidades()
+
+        const { id } = this.props.match.params
+        // si me envian una receta por parametro la setteo
+        if (id !== "new" && recetas) {
+            const receta = findRecetaById(recetas, id);
+            if (receta) this.setState({ receta })
+        }
     }
 
     onChange(e) {
@@ -123,7 +133,15 @@ class RecetaForm extends Component {
 
     render() {
         const { nombre, descripcion, ingredientes } = this.state.receta
-        const { classes } = this.props
+        const {
+            fetchingRecetas, fetchingAlimentos, fetchingUnidades,
+            alimentos, unidadesDeMedida,
+            classes
+        } = this.props
+
+        if (fetchingRecetas || fetchingAlimentos || fetchingUnidades) {
+            return <p>Loading...</p>
+        }
         return (
             <Container maxWidth="md">
                 <form onSubmit={this.sendReceta}>
@@ -160,6 +178,8 @@ class RecetaForm extends Component {
                             id="ingredientes"
                             label="Ingredientes"
                             ingredientes={ingredientes}
+                            alimentos={alimentos}
+                            unidadesDeMedida={unidadesDeMedida}
                             onChangeIngredienteCombo={this.onChangeIngredienteCombo}
                             onChangeIngredienteText={this.onChangeIngredienteText}
                             addIngrediente={this.addIngrediente}
@@ -179,9 +199,19 @@ class RecetaForm extends Component {
     }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+    fetchingRecetas: state.fetchingRecetas,
+    fetchingAlimentos: state.fetchingAlimentos,
+    fetchingUnidades: state.fetchingUnidades,
+
+    recetas: state.recetas,
+    alimentos: state.alimentos,
+    unidadesDeMedida: state.unidadesDeMedida,
+})
 
 const mapDispatchToProps = dispatch => ({
+    getAlimentos: () => dispatch(getAlimentos()),
+    getUnidades: () => dispatch(getUnidades()),
     sendReceta: receta => dispatch(sendReceta(receta)),
 })
 

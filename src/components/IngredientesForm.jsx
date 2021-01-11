@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { IconButton, Typography, withStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import IngredienteForm from './IngredienteForm';
-import { connect } from 'react-redux';
-import { getAlimentos, getUnidades } from '../store/actions';
 
 const style = theme => ({
     container: {
@@ -21,15 +19,6 @@ const style = theme => ({
 })
 
 class IngredientesForm extends Component {
-    componentDidMount() {
-        const {
-            alimentos, unidadesDeMedida, getAlimentos, getUnidades
-        } = this.props;
-
-        if (!alimentos) getAlimentos()
-
-        if (!unidadesDeMedida) getUnidades()
-    }
 
     render() {
         const {
@@ -69,14 +58,6 @@ class IngredientesForm extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    alimentos: state.alimentos,
-    unidadesDeMedida: state.unidadesDeMedida
-})
 
-const mapDispatchToProps = dispatch => ({
-    getAlimentos: () => dispatch(getAlimentos()),
-    getUnidades: () => dispatch(getUnidades())
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(IngredientesForm))
+export default withStyles(style)(IngredientesForm)

@@ -39,7 +39,7 @@ const recetas = [
         ]
     },
     {
-        idReceta: 2,
+        idReceta: 1,
         nombre: "Guiso de pollo y pescado",
         descripcion: "Guiso de arroz, pollo y pescado, medio raro",
         ingredientes: [
