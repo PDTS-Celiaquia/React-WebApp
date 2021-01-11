@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Button, Container, TextField, withStyles } from '@material-ui/core'
-import TextEditor from './TextEditor'
 import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
-import BorderedDiv from './BorderedDiv';
+import BorderedDiv from './common/BorderedDiv';
+import TextEditor from './common/TextEditor'
 import { findRecetaById } from '../helpers/findReceta';
 import { getAlimentos, getUnidades, sendReceta } from '../store/actions';
+import NavBar from './common/NavBar';
 
 const style = theme => ({
     item: {
@@ -143,6 +144,8 @@ class RecetaForm extends Component {
             return <p>Loading...</p>
         }
         return (
+            <>
+            <NavBar homeButton />
             <Container maxWidth="md">
                 <form onSubmit={this.sendReceta}>
                     <TextField
@@ -195,6 +198,7 @@ class RecetaForm extends Component {
                     />
                 </form>
             </Container>
+            </>
         )
     }
 }

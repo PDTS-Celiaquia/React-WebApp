@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Box, Button, Container, IconButton, InputAdornment, TextField, Typography, withStyles
+    Button, Container, IconButton, InputAdornment, TextField, Typography, withStyles
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { getRecetas } from '../store/actions'
-import BorderedDiv from './BorderedDiv'
 import { Link } from 'react-router-dom';
+import { getRecetas } from '../store/actions'
+import NavBar from './common/NavBar';
+import BorderedDiv from './common/BorderedDiv'
 
 
 const ResumenReceta = withStyles(theme => ({
@@ -34,7 +35,7 @@ const ResumenReceta = withStyles(theme => ({
                     if (index % 2 === 0) {
                         return split[i]
                     } else {
-                        return <b>{ highlight[i] }</b>
+                        return <b>{highlight[i]}</b>
                     }
                 })}
             </Typography>
@@ -110,39 +111,42 @@ class ListaRecetas extends Component {
             recetas.filter(receta => receta.nombre.match(re))
             : recetas
         return (
-            <Container maxWidth="md">
-                <div className={classes.header}>
-                    <TextField
-                        className={classes.filter}
-                        value={filter}
-                        onChange={this.onFilterChange}
-                        variant="outlined"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <Button
-                        className={classes.new}
-                        variant="contained"
-                        color="primary"
-                        component={Link}
-                        to="/new"
-                    >
-                        Nueva Receta
+            <>
+                <NavBar />
+                <Container maxWidth="md">
+                    <div className={classes.header}>
+                        <TextField
+                            className={classes.filter}
+                            value={filter}
+                            onChange={this.onFilterChange}
+                            variant="outlined"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <Button
+                            className={classes.new}
+                            variant="contained"
+                            color="primary"
+                            component={Link}
+                            to="/new"
+                        >
+                            Nueva Receta
                     </Button>
-                </div>
-                <div className={classes.list}>
-                    {filteredList.map(receta => (
-                        <BorderedDiv className={classes.item} key={receta.idReceta}>
-                            <ResumenReceta receta={receta} re={re} />
-                        </BorderedDiv>
-                    ))}
-                </div>
-            </Container>
+                    </div>
+                    <div className={classes.list}>
+                        {filteredList.map(receta => (
+                            <BorderedDiv className={classes.item} key={receta.idReceta}>
+                                <ResumenReceta receta={receta} re={re} />
+                            </BorderedDiv>
+                        ))}
+                    </div>
+                </Container>
+            </>
         )
     }
 }
