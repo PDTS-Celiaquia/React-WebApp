@@ -19,14 +19,22 @@ const style = theme => ({
 class RecetaForm extends Component {
     constructor(props) {
         super(props)
+        let receta
 
-        this.state = {
-            receta: {
+        // si me envian una receta por parametro la setteo como inicial
+        if (props.receta) {
+            receta = props.receta
+        } else {
+            receta = {
                 nombre: "",
                 descripcion: "",
                 instrucciones: "",
                 ingredientes: []
-            },
+            }
+        }
+
+        this.state = {
+            receta,
         }
 
         this.onChange = this.onChange.bind(this)
@@ -40,7 +48,12 @@ class RecetaForm extends Component {
     onChange(e) {
         const { id, value } = e.target;
 
-        this.setState({ [id]: value })
+        this.setState(state => ({
+            receta: {
+                ...state.receta,
+                [id]: value
+            }
+        }))
     }
 
     onChangeIngredienteCombo(index, id, value) {
@@ -80,8 +93,8 @@ class RecetaForm extends Component {
             receta: {
                 ...state.receta,
                 ingredientes: [
-                    ...ingredientes.slice(0,index),
-                    ...ingredientes.slice(index+1)
+                    ...ingredientes.slice(0, index),
+                    ...ingredientes.slice(index + 1)
                 ]
             }
         }))
