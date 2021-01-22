@@ -8,7 +8,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from 'react-router-dom';
 import { getRecetas } from '../store/actions'
-import NavBar from './common/NavBar';
 import BorderedDiv from './common/BorderedDiv'
 
 
@@ -112,7 +111,6 @@ class ListaRecetas extends Component {
             : recetas
         return (
             <>
-                <NavBar />
                 <Container maxWidth="md">
                     <div className={classes.header}>
                         <TextField

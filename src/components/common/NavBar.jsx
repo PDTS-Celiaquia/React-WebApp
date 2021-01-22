@@ -2,6 +2,7 @@ import { AppBar, Container, IconButton, Toolbar, Typography, withStyles } from '
 import HomeIcon from '@material-ui/icons/Home'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import TemporaryDrawer from './TemporaryDrawer'
 
 const styles = theme => ({
     bar: {
@@ -17,11 +18,13 @@ const styles = theme => ({
 })
 
 
-function NavBar({ children, homeButton, classes, ...props }) {
+function NavBar({ children, location, classes, ...props }) {
+    const homeButton = location.pathname !== "/"
     return (
         <AppBar position="static" className={classes.bar} {...props}>
             <Container maxWidth="xl">
                 <Toolbar>
+                    <TemporaryDrawer/>
                     <IconButton
                         className={classes.homeIcon}
                         edge="start"
