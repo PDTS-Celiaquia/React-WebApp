@@ -89,4 +89,4 @@ app.post('/receta/modificar', (req, res) => {
     res.status(200).send("OK")
 })
 
-app.listen(5000, () => {console.log("Conectado en el puerto 5000")})
+app.listen(8080, () => {console.log("Conectado en el puerto 5000")})
