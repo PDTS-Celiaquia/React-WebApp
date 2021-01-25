@@ -3,11 +3,11 @@ const app = express()
 const bodyParser = require('body-parser')
 
 const alimentos = [
-    { numero: 0, nombre: "Soja" },
-    { numero: 1, nombre: "Pollo" },
-    { numero: 2, nombre: "Pescado" },
-    { numero: 3, nombre: "Carne" },
-    { numero: 4, nombre: "Arroz" },
+    { numero: 0, nombre: "Soja", esAccesible: true },
+    { numero: 1, nombre: "Pollo", esAccesible: true },
+    { numero: 2, nombre: "Pescado", esAccesible: true },
+    { numero: 3, nombre: "Carne", esAccesible: true },
+    { numero: 4, nombre: "Arroz", esAccesible: true },
 
 ]
 

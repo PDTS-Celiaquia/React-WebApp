@@ -5,6 +5,7 @@ const {
     requestRecetas, successRecetas, errorRecetas,
     requestUnidades, successUnidades, errorUnidades,
     requestSendReceta, successSendReceta, errorSendReceta,
+    requestSendAlimento, successSendAlimento, errorSendAlimento,
 } = typeDefs
 
 const initState = {
@@ -65,6 +66,16 @@ export default function reducer(state = initState, { type, payload, error }) {
 
         case errorSendReceta:
             return { ...state, sendingReceta: false, errorSendReceta: true, message: error }
+
+
+        case requestSendAlimento:
+            const { alimento, index } = payload
+            const alimentos = [
+                ...state.alimentos.slice(0, index),
+                alimento,
+                ...state.alimentos.slice(index + 1)
+            ]
+            return { ...state, sendingAlimento: true, errorSendAlimento: false, alimentos }
 
         default:
             return state

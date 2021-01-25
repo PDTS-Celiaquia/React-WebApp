@@ -16,6 +16,10 @@ export const typeDefs = {
     requestSendReceta: "REQUEST_SEND_RECETA",
     successSendReceta: "SUCCESS_SEND_RECETA",
     errorSendReceta: "ERROR_SEND_RECETA",
+
+    requestSendAlimento: "REQUEST_SEND_ALIMENTO",
+    successSendAlimento: "SUCCESS_SEND_ALIMENTO",
+    errorSendAlimento: "ERROR_SEND_ALIMENTO",
 }
 
 const {
@@ -23,6 +27,7 @@ const {
     requestRecetas, successRecetas, errorRecetas,
     requestUnidades, successUnidades, errorUnidades,
     requestSendReceta, successSendReceta, errorSendReceta,
+    requestSendAlimento, successSendAlimento, errorSendAlimento,
 } = typeDefs
 
 export function getAlimentos() {
@@ -64,5 +69,11 @@ export function sendReceta(receta) {
             () => dispatch({ type: successSendReceta }),
             error => dispatch({ type: errorSendReceta, error })
         )
+    }
+}
+
+export function sendAlimento(alimento, index) {
+    return dispatch => {
+        dispatch({ type: requestSendAlimento, payload: {alimento, index}})
     }
 }
