@@ -18,13 +18,13 @@ const styles = theme => ({
 })
 
 
-function NavBar({ children, location, classes, ...props }) {
+function NavBar({ children, location, classes }) {
     const homeButton = location.pathname !== "/"
     return (
-        <AppBar position="static" className={classes.bar} {...props}>
+        <AppBar position="static" className={classes.bar}>
             <Container maxWidth="xl">
                 <Toolbar>
-                    <TemporaryDrawer/>
+                    <TemporaryDrawer />
                     <IconButton
                         className={classes.homeIcon}
                         edge="start"

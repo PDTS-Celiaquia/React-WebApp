@@ -71,12 +71,12 @@ class TemporaryDrawer extends Component {
         return (
             <>
                 <IconButton
-                className={classes.menuIcon}
+                    className={classes.menuIcon}
                     onClick={this.toggleDrawer(true)}
                 >
                     <MenuIcon />
                 </IconButton>
-                <SwipeableDrawer anchor="left" open={open} onClose={this.toggleDrawer(false)}>
+                <SwipeableDrawer anchor="left" open={open} onOpen={console.log} onClose={this.toggleDrawer(false)}>
                     {this.list()}
                 </SwipeableDrawer>
             </>

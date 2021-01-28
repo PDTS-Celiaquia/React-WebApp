@@ -1,11 +1,11 @@
 import { typeDefs } from './actions';
 
 const {
-    requestAlimentos, successAlimentos, errorAlimentos,
-    requestRecetas, successRecetas, errorRecetas,
     requestUnidades, successUnidades, errorUnidades,
-    requestSendReceta, successSendReceta, errorSendReceta,
+    requestAlimentos, successAlimentos, errorAlimentos,
     requestSendAlimento, successSendAlimento, errorSendAlimento,
+    requestRecetas, successRecetas, errorRecetas,
+    requestSendReceta, successSendReceta, errorSendReceta,
 } = typeDefs
 
 const initState = {
@@ -76,6 +76,12 @@ export default function reducer(state = initState, { type, payload, error }) {
                 ...state.alimentos.slice(index + 1)
             ]
             return { ...state, sendingAlimento: true, errorSendAlimento: false, alimentos }
+
+        case successSendAlimento:
+            return { ...state, sendingAlimento: false }
+
+        case errorSendAlimento:
+            return { ...state, sendingAlimento: false, errorSendAlimento: true, message: error }
 
         default:
             return state

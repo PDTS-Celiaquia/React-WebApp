@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Button, Container, IconButton, InputAdornment, TextField, withStyles
+    Button, CircularProgress, Container, IconButton, InputAdornment, TextField, withStyles
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from 'react-router-dom';
 import { getRecetas } from '../store/actions'
@@ -33,10 +34,10 @@ const ResumenReceta = withStyles(theme => ({
                     variant="h6"
                     re={re}
                 />
-                <IconButton component={Link} to={`/${receta.idReceta}`}>
+                <IconButton component={Link} to={location => `${location.pathname}/${receta.idReceta}`}>
                     <EditIcon className="icon" />
                 </IconButton>
-                <IconButton component={Link} to={`/${receta.idReceta}`}>
+                <IconButton onClick={() => console.log("Todavia no arme el flujo para borrar :)")}>
                     <DeleteIcon color="error" />
                 </IconButton>
             </div>
@@ -54,6 +55,9 @@ const style = theme => ({
         margin: theme.spacing(1),
         marginRight: 0,
         float: "right",
+    },
+    refresh: {
+        float: 'right',
     },
     list: {
 
@@ -73,10 +77,15 @@ class ListaRecetas extends Component {
             filter: ""
         }
 
+        this.refresh = this.refresh.bind(this)
         this.onFilterChange = this.onFilterChange.bind(this)
     }
 
     componentDidMount() {
+        this.refresh()
+    }
+
+    refresh() {
         this.props.getRecetas()
     }
 
@@ -87,7 +96,7 @@ class ListaRecetas extends Component {
 
     render() {
         const { filter } = this.state
-        const { recetas, classes } = this.props
+        const { recetas, fetching, classes } = this.props
         if (!recetas) {
             return <p>Loading...</p>
         }
@@ -96,32 +105,38 @@ class ListaRecetas extends Component {
             recetas.filter(receta => receta.nombre.match(re))
             : recetas
         return (
-            <>
-                <Container maxWidth="md">
-                    <div className={classes.header}>
-                        <TextField
-                            className={classes.filter}
-                            value={filter}
-                            onChange={this.onFilterChange}
-                            variant="outlined"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                        <Button
-                            className={classes.new}
-                            variant="contained"
-                            color="primary"
-                            component={Link}
-                            to="/new"
-                        >
-                            Nueva Receta
+            <Container maxWidth="md">
+                <div className={classes.header}>
+                    <TextField
+                        className={classes.filter}
+                        value={filter}
+                        onChange={this.onFilterChange}
+                        variant="outlined"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                    <Button
+                        className={classes.new}
+                        variant="contained"
+                        color="primary"
+                        component={Link}
+                        to="/new"
+                    >
+                        Nueva Receta
                     </Button>
-                    </div>
+                    <IconButton
+                        className={classes.refresh}
+                        onClick={this.refresh}
+                    >
+                        <RefreshIcon />
+                    </IconButton>
+                </div>
+                {fetching ? <CircularProgress /> :
                     <div className={classes.list}>
                         {filteredList.map(receta => (
                             <BorderedDiv className={classes.item} key={receta.idReceta}>
@@ -129,8 +144,8 @@ class ListaRecetas extends Component {
                             </BorderedDiv>
                         ))}
                     </div>
-                </Container>
-            </>
+                }
+            </Container>
         )
     }
 }
