@@ -97,8 +97,8 @@ class ListaRecetas extends Component {
     render() {
         const { filter } = this.state
         const { recetas, fetching, classes } = this.props
-        if (!recetas) {
-            return <p>Loading...</p>
+        if (!recetas && !fetching) {
+            return <p>Error</p>
         }
         const re = filter ? new RegExp(filter, 'ig') : null
         const filteredList = re != null ?
