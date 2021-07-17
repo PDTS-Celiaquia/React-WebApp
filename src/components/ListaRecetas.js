@@ -125,7 +125,7 @@ class ListaRecetas extends Component {
                         variant="contained"
                         color="primary"
                         component={Link}
-                        to="/new"
+                        to={location => `${location.pathname}/new`}
                     >
                         Nueva Receta
                     </Button>

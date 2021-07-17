@@ -6,7 +6,7 @@ import ListaAlimentos from '../components/ListaAlimentos.js';
 import ListaRecetas from '../components/ListaRecetas.js';
 import RecetaForm from '../components/RecetaForm.js'
 
-function App() {
+function MainRouter() {
   return (
     <BrowserRouter>
       <div className="App">
@@ -20,4 +20,4 @@ function App() {
   );
 }
 
-export default App;
+export default MainRouter;
