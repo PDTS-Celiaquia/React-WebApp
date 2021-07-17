@@ -52,6 +52,9 @@ class TemporaryDrawer extends Component {
                     <ListItem button component={Link} to="/alimento">
                         <ListItemText primary="Alimentos" />
                     </ListItem>
+                    <ListItem button component={Link} to="/cuestionario">
+                        <ListItemText primary="Analisis Cuestionario" />
+                    </ListItem>
                 </List>
                 {/* <Divider />
                 <List>
