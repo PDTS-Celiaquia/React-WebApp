@@ -31,6 +31,7 @@ export async function loginService(data) {
                 accessToken: accessToken
             }
             if(user.role === Authority.PACIENTE) {
+                console.log("Solo se permite el acceso a usuarios administradores u operarios.")
                 throw 'Solo se permite el acceso a usuarios administradores u operarios.'
             }
             setUser(user);
@@ -41,17 +42,7 @@ export async function loginService(data) {
 export async function registerService(data) {
     return axiosInstance
         .post("/api/usuario/registerOperario", data)
-        .then(({ data: { accessToken } }) => {
-            const decoded = jwt_decode(accessToken);
-            const user = {
-                email: decoded.email,
-                role: decoded.role,
-                accessToken: accessToken
-            }
-            if(user.role !== Authority.ADMIN) {
-                throw 'Solo se permite registrar operarios al administrador.'
-            }
-            setUser(user);
-            return user;
+        .then(({ data }) => {
+            return data;
         })
 };
