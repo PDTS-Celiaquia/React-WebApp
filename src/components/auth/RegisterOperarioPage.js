@@ -1,6 +1,5 @@
+import React, { Component } from 'react';
 import { Button, CircularProgress, Container, TextField, Typography, withStyles } from '@material-ui/core';
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
 import { registerService } from '../../services/auth';
 
 const styles = theme => ({

@@ -14,7 +14,7 @@ function MainRouter() {
       <div className="App">
         <Route path="/" component={NavBar} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/register_operario" component={RegisterOperarioPage} />
+        <Route path="/registerOperario" component={RegisterOperarioPage} />
         <Route path="/cuestionario" component={AnalisisCuestionario} />
         <Route path="/receta/:id" component={RecetaForm} />
         <Route exact path="/receta" component={ListaRecetas} />

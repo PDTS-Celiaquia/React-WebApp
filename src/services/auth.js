@@ -31,8 +31,8 @@ export async function loginService(data) {
                 accessToken: accessToken
             }
             if(user.role === roles.PACIENTE) {
-                console.log("Solo se permite el acceso a usuarios administradores u operarios.")
-                throw 'Solo se permite el acceso a usuarios administradores u operarios.'
+                console.log("Intento de login por parte de un paciente")
+                throw Error('Solo se permite el acceso a usuarios administradores u operarios.')
             }
             setUser(user);
             return user;
@@ -42,7 +42,4 @@ export async function loginService(data) {
 export async function registerService(data) {
     return axiosInstance
         .post("/api/usuario/registerOperario", data)
-        .then(({ data }) => {
-            return data;
-        })
 };

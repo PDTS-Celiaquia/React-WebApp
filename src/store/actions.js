@@ -34,7 +34,7 @@ const {
 export function getUnidades() {
     return dispatch => {
         dispatch({ type: requestUnidades })
-        axiosInstance.get('/unidades').then(
+        axiosInstance.get('/api/unidades').then(
             response => dispatch({ type: successUnidades, payload: response }),
             error => dispatch({ type: errorUnidades, error })
         )
@@ -45,7 +45,7 @@ export function getUnidades() {
 export function getAlimentos() {
     return dispatch => {
         dispatch({ type: requestAlimentos })
-        axiosInstance.get('/alimento').then(
+        axiosInstance.get('/api/alimento').then(
             response => dispatch({ type: successAlimentos, payload: response }),
             error => dispatch({ type: errorAlimentos, error })
         )
@@ -55,9 +55,9 @@ export function getAlimentos() {
 export function sendAlimento(alimento, index) {
     return dispatch => {
         dispatch({ type: requestSendAlimento, payload: { alimento, index } })
-        axiosInstance.post('/alimento', alimento).then(
+        axiosInstance.post('/api/alimento/', alimento).then(
             () => dispatch({ type: successSendAlimento }),
-            error => dispatch({ type: errorSendAlimento })
+            error => dispatch({ type: errorSendAlimento, error })
         )
     }
 }
@@ -66,7 +66,7 @@ export function sendAlimento(alimento, index) {
 export function getRecetas() {
     return dispatch => {
         dispatch({ type: requestRecetas })
-        axiosInstance.get('/receta').then(
+        axiosInstance.get('/api/receta').then(
             response => dispatch({ type: successRecetas, payload: response }),
             error => dispatch({ type: errorRecetas, error })
         )
@@ -76,7 +76,7 @@ export function getRecetas() {
 export function sendReceta(receta) {
     return dispatch => {
         dispatch({ type: requestSendReceta })
-        const route = `/receta${typeof receta.idReceta !== "undefined" ? '/modificar' : ''}`
+        const route = `/api/receta${typeof receta.idReceta !== "undefined" ? '/modificar' : ''}`
         // si la receta tiene id es una modificación
         axiosInstance.post(route, receta).then(
             () => dispatch({ type: successSendReceta }),
