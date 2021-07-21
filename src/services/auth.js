@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { Authority } from "./Authority";
+import roles from "../constants/roles";
 import axiosInstance from "./axiosInstance";
 
 // TODO: implement a secure way to store jwt (no jwt ot cookies. maybe httpOnly cookies)
@@ -30,7 +30,7 @@ export async function loginService(data) {
                 role: decoded.role,
                 accessToken: accessToken
             }
-            if(user.role === Authority.PACIENTE) {
+            if(user.role === roles.PACIENTE) {
                 console.log("Solo se permite el acceso a usuarios administradores u operarios.")
                 throw 'Solo se permite el acceso a usuarios administradores u operarios.'
             }
