@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Button, CircularProgress, Container, IconButton, InputAdornment, TextField, withStyles
+    Button, Container, IconButton, InputAdornment, TextField, withStyles
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { getRecetas } from '../store/actions'
 import BorderedDiv from './common/BorderedDiv'
 import TypographyRe from './common/TypographyRe';
+import Loader from './common/Loader';
 
 
 const ResumenReceta = withStyles(theme => ({
@@ -136,7 +137,7 @@ class ListaRecetas extends Component {
                         <RefreshIcon />
                     </IconButton>
                 </div>
-                {fetching ? <CircularProgress /> :
+                {fetching ? <Loader /> :
                     <div className={classes.list}>
                         {filteredList.map(receta => (
                             <BorderedDiv className={classes.item} key={receta.idReceta}>

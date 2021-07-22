@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Checkbox, CircularProgress, Container, IconButton, InputAdornment, TextField, withStyles
+    Checkbox, Container, IconButton, InputAdornment, TextField, withStyles
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { getAlimentos, sendAlimento } from '../store/actions'
 import BorderedDiv from './common/BorderedDiv'
 import TypographyRe from './common/TypographyRe';
+import Loader from './common/Loader';
 
 
 const ResumenAlimento = withStyles(theme => ({
@@ -120,7 +121,7 @@ class ListaAlimentos extends Component {
                             <RefreshIcon />
                         </IconButton>
                     </div>
-                    {fetching ? <CircularProgress /> :
+                    {fetching ? <Loader /> :
                         <BorderedDiv className={classes.list}>
                             {filteredList.map((alimento, i) => (
                                 <ResumenAlimento

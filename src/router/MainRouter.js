@@ -5,12 +5,16 @@ import AnalisisCuestionario from '../components/AnalisisCuestionario.js';
 import ListaAlimentos from '../components/ListaAlimentos.js';
 import ListaRecetas from '../components/ListaRecetas.js';
 import RecetaForm from '../components/RecetaForm.js'
+import LoginPage from '../components/auth/LoginPage.js';
+import RegisterOperarioPage from '../components/auth/RegisterOperarioPage.js';
 
 function MainRouter() {
   return (
     <BrowserRouter>
       <div className="App">
         <Route path="/" component={NavBar} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/registerOperario" component={RegisterOperarioPage} />
         <Route path="/cuestionario" component={AnalisisCuestionario} />
         <Route path="/receta/:id" component={RecetaForm} />
         <Route exact path="/receta" component={ListaRecetas} />
