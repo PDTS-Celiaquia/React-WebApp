@@ -1,7 +1,7 @@
 import { AppBar, Container, IconButton, Toolbar, Typography, withStyles } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import TemporaryDrawer from './TemporaryDrawer'
 
 const styles = theme => ({
@@ -45,4 +45,4 @@ function NavBar({ children, location, classes }) {
     )
 }
 
-export default withStyles(styles)(NavBar)
+export default withStyles(styles)(withRouter(NavBar))
