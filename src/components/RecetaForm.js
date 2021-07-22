@@ -6,6 +6,7 @@ import BorderedDiv from './common/BorderedDiv';
 import TextEditor from './common/TextEditor'
 import { findRecetaById } from '../helpers/findReceta';
 import { getAlimentos, getUnidades, sendReceta } from '../store/actions';
+import Loader from './common/Loader';
 
 const style = theme => ({
     item: {
@@ -25,9 +26,10 @@ class RecetaForm extends Component {
             receta: {
                 nombre: "",
                 descripcion: "",
-                instrucciones: "",
-                ingredientes: []
+                instrucciones: "<p></p>",
+                ingredientes: [],
             },
+            loading: true
         }
 
         this.onChange = this.onChange.bind(this)
@@ -48,16 +50,21 @@ class RecetaForm extends Component {
         if (!unidadesDeMedida) getUnidades()
 
         const { id } = this.props.match.params
-        // si me envian una receta por parametro la setteo
-        if (id !== "new" && recetas) {
-            const receta = findRecetaById(recetas, id);
-            if (receta) this.setState({ receta })
+        if (id !== "new") {
+            // TODO: request to store
+            const recetaInit = findRecetaById(recetas, id);
+            if (recetaInit) {
+                this.setState({ receta: recetaInit, loading: false })
+            } else {
+                // TODO: handle invalid id
+            }
+        } else {
+            this.setState({ loading: false })
         }
     }
 
     onChange(e) {
         const { id, value } = e.target;
-
         this.setState(state => ({
             receta: {
                 ...state.receta,
@@ -132,18 +139,18 @@ class RecetaForm extends Component {
     }
 
     render() {
-        const { nombre, descripcion, ingredientes } = this.state.receta
+        const { nombre, descripcion, instrucciones, ingredientes } = this.state.receta
+        const { loading } = this.state;
         const {
             fetchingRecetas, fetchingAlimentos, fetchingUnidades,
             alimentos, unidadesDeMedida,
             classes
         } = this.props
 
-        if (fetchingRecetas || fetchingAlimentos || fetchingUnidades) {
-            return <p>Loading...</p>
+        if (loading || fetchingRecetas || fetchingAlimentos || fetchingUnidades) {
+            return <Loader />
         }
         return (
-            <>
             <Container maxWidth="md">
                 <form onSubmit={this.sendReceta}>
                     <TextField
@@ -171,6 +178,7 @@ class RecetaForm extends Component {
                         <TextEditor
                             id="instrucciones"
                             label="Instrucciones"
+                            value={instrucciones}
                             onChange={this.onChange}
                         />
                     </BorderedDiv>
@@ -196,7 +204,6 @@ class RecetaForm extends Component {
                     />
                 </form>
             </Container>
-            </>
         )
     }
 }

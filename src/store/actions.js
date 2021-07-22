@@ -35,7 +35,7 @@ export function getUnidades() {
     return dispatch => {
         dispatch({ type: requestUnidades })
         axiosInstance.get('/api/unidades').then(
-            response => dispatch({ type: successUnidades, payload: response }),
+            response => dispatch({ type: successUnidades, payload: response.data }),
             error => dispatch({ type: errorUnidades, error })
         )
     }
@@ -46,7 +46,7 @@ export function getAlimentos() {
     return dispatch => {
         dispatch({ type: requestAlimentos })
         axiosInstance.get('/api/alimento').then(
-            response => dispatch({ type: successAlimentos, payload: response }),
+            response => dispatch({ type: successAlimentos, payload: response.data }),
             error => dispatch({ type: errorAlimentos, error })
         )
     }
@@ -67,7 +67,7 @@ export function getRecetas() {
     return dispatch => {
         dispatch({ type: requestRecetas })
         axiosInstance.get('/api/receta').then(
-            response => dispatch({ type: successRecetas, payload: response }),
+            response => dispatch({ type: successRecetas, payload: response.data }),
             error => dispatch({ type: errorRecetas, error })
         )
     }
@@ -76,9 +76,7 @@ export function getRecetas() {
 export function sendReceta(receta) {
     return dispatch => {
         dispatch({ type: requestSendReceta })
-        const route = `/api/receta${typeof receta.idReceta !== "undefined" ? '/modificar' : ''}`
-        // si la receta tiene id es una modificación
-        axiosInstance.post(route, receta).then(
+        axiosInstance.put('/api/receta/', receta).then(
             () => dispatch({ type: successSendReceta }),
             error => dispatch({ type: errorSendReceta, error })
         )

@@ -35,7 +35,7 @@ const ResumenReceta = withStyles(theme => ({
                     variant="h6"
                     re={re}
                 />
-                <IconButton component={Link} to={location => `${location.pathname}/${receta.idReceta}`}>
+                <IconButton component={Link} to={location => `${location.pathname}/${receta.id}`}>
                     <EditIcon className="icon" />
                 </IconButton>
                 <IconButton onClick={() => console.log("Todavia no arme el flujo para borrar :)")}>
@@ -140,7 +140,7 @@ class ListaRecetas extends Component {
                 {fetching ? <Loader /> :
                     <div className={classes.list}>
                         {filteredList.map(receta => (
-                            <BorderedDiv className={classes.item} key={receta.idReceta}>
+                            <BorderedDiv className={classes.item} key={receta.id}>
                                 <ResumenReceta receta={receta} re={re} />
                             </BorderedDiv>
                         ))}
