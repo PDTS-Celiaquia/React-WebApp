@@ -1,3 +1,4 @@
+import { getAllAlimentos, setAlimentoAccesible } from '../services/alimento.service';
 import axiosInstance from '../services/axiosInstance';
 import { getAllRecetas, deleteRecetaById } from "../services/receta.service";
 
@@ -45,23 +46,22 @@ export function getUnidades() {
 export function getAlimentos() {
     return dispatch => {
         dispatch({ type: requestAlimentos })
-        axiosInstance.get('/api/alimento').then(
+        getAllAlimentos().then(
             response => dispatch({ type: successAlimentos, payload: response.data }),
             error => dispatch({ type: errorAlimentos, error })
         )
     }
 }
 
-export function sendAlimento(alimento, index) {
+export function changeAlimentoAccesible(alimentoId, esAccesible) {
     return dispatch => {
-        dispatch({ type: requestSendAlimento, payload: { alimento, index } })
-        axiosInstance.post('/api/alimento/', alimento).then(
+        dispatch({ type: requestSendAlimento, payload: { alimentoId, esAccesible } })
+        setAlimentoAccesible(alimentoId, esAccesible).then(
             () => dispatch({ type: successSendAlimento }),
             error => dispatch({ type: errorSendAlimento, error })
         )
     }
 }
-
 
 export function getRecetas() {
     return dispatch => {

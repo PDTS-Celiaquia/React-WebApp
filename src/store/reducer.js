@@ -48,12 +48,14 @@ export default function reducer(state = initState, { type, payload, error }) {
 
 
         case requestSendAlimento:
-            const { alimento, index } = payload
-            const alimentos = [
-                ...state.alimentos.slice(0, index),
-                alimento,
-                ...state.alimentos.slice(index + 1)
-            ]
+            const { alimentoId, esAccesible } = payload
+            const alimentos = state.alimentos.map(al => {
+                if (al.numero === alimentoId) {
+                    return { ...al, esAccesible };
+                } else {
+                    return { ...al };
+                }
+            })
             return { ...state, sendingAlimento: true, errorSendAlimento: false, alimentos }
 
         case successSendAlimento:
