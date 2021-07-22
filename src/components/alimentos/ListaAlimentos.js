@@ -8,6 +8,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import { getAlimentos, sendAlimento } from '../../store/actions'
 import BorderedDiv from '../common/BorderedDiv'
 import Loader from '../common/Loader';
+import ResumenAlimentos from './ResumenAlimentos';
 
 
 const style = theme => ({
@@ -94,7 +95,7 @@ class ListaAlimentos extends Component {
                     {fetching ? <Loader /> :
                         <BorderedDiv className={classes.list}>
                             {filteredList.map((alimento, i) => (
-                                <ResumenAlimento
+                                <ResumenAlimentos
                                     key={alimento.numero}
                                     alimento={alimento}
                                     onChange={e => this.onAccesibleChange(i, e)}

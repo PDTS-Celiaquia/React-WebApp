@@ -1,4 +1,5 @@
-import axiosInstance from '../services/axiosInstance'
+import axiosInstance from '../services/axiosInstance';
+import { getAllRecetas, saveReceta } from "../services/receta.service";
 
 export const typeDefs = {
     requestUnidades: "REQUEST_UNIDADES",
@@ -66,7 +67,7 @@ export function sendAlimento(alimento, index) {
 export function getRecetas() {
     return dispatch => {
         dispatch({ type: requestRecetas })
-        axiosInstance.get('/api/receta').then(
+        getAllRecetas().then(
             response => dispatch({ type: successRecetas, payload: response.data }),
             error => dispatch({ type: errorRecetas, error })
         )
@@ -76,7 +77,7 @@ export function getRecetas() {
 export function sendReceta(receta) {
     return dispatch => {
         dispatch({ type: requestSendReceta })
-        axiosInstance.put('/api/receta/', receta).then(
+        saveReceta(receta).then(
             () => dispatch({ type: successSendReceta }),
             error => dispatch({ type: errorSendReceta, error })
         )

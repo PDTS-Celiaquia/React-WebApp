@@ -8,10 +8,10 @@ import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from 'react-router-dom';
-import { getRecetas } from '../store/actions'
-import BorderedDiv from './common/BorderedDiv'
-import TypographyRe from './common/TypographyRe';
-import Loader from './common/Loader';
+import { getRecetas } from '../../store/actions'
+import BorderedDiv from '../common/BorderedDiv'
+import TypographyRe from '../common/TypographyRe';
+import Loader from '../common/Loader';
 
 
 const ResumenReceta = withStyles(theme => ({

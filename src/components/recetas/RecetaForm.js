@@ -2,11 +2,19 @@ import React, { Component } from 'react'
 import { Button, Container, TextField, withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
-import BorderedDiv from './common/BorderedDiv';
-import TextEditor from './common/TextEditor'
-import { findRecetaById } from '../helpers/findReceta';
-import { getAlimentos, getUnidades, sendReceta } from '../store/actions';
-import Loader from './common/Loader';
+import BorderedDiv from '../common/BorderedDiv';
+import TextEditor from '../common/TextEditor'
+import { findReceta } from '../../helpers/findReceta';
+import { getAlimentos, getUnidades } from '../../store/actions';
+import Loader from '../common/Loader';
+import { findRecetaById, saveReceta } from '../../services/receta.service';
+
+const newReceta = {
+    nombre: "",
+    descripcion: "",
+    instrucciones: "<p></p>",
+    ingredientes: [],
+}
 
 const style = theme => ({
     item: {
@@ -23,13 +31,9 @@ class RecetaForm extends Component {
         super(props)
 
         this.state = {
-            receta: {
-                nombre: "",
-                descripcion: "",
-                instrucciones: "<p></p>",
-                ingredientes: [],
-            },
-            loading: true
+            receta: null,
+            loading: true,
+            sending: false
         }
 
         this.onChange = this.onChange.bind(this)
@@ -40,26 +44,27 @@ class RecetaForm extends Component {
         this.sendReceta = this.sendReceta.bind(this)
     }
 
-    componentDidMount() {
-        const {
-            recetas, alimentos, unidadesDeMedida, getAlimentos, getUnidades
-        } = this.props;
+    async componentDidMount() {        
+        this.props.getAlimentos()
+        this.props.getUnidades()
 
-        if (!alimentos) getAlimentos()
-
-        if (!unidadesDeMedida) getUnidades()
-
+        const { recetas } = this.props;
         const { id } = this.props.match.params
         if (id !== "new") {
-            // TODO: request to store
-            const recetaInit = findRecetaById(recetas, id);
+            let recetaInit;
+            if (recetas) {
+                recetaInit = findReceta(recetas, id);
+            } else {
+                recetaInit = (await findRecetaById(id)).data;
+            }
             if (recetaInit) {
-                this.setState({ receta: recetaInit, loading: false })
+                this.setState({ receta: recetaInit, loading: false, edit: true })
             } else {
                 // TODO: handle invalid id
+                console.log("Add invalid id toast or screen")
             }
         } else {
-            this.setState({ loading: false })
+            this.setState({ receta: newReceta, loading: false, edit: false })
         }
     }
 
@@ -133,14 +138,15 @@ class RecetaForm extends Component {
         }))
     }
 
-    sendReceta(e) {
-        e.preventDefault()
-        this.props.sendReceta(this.state.receta)
+    async sendReceta(e) {
+        e.preventDefault();
+        this.setState({ sending: true });
+        const receta = (await saveReceta(this.state.receta)).data;
+        this.setState({ receta, sending: false })
     }
 
     render() {
-        const { nombre, descripcion, instrucciones, ingredientes } = this.state.receta
-        const { loading } = this.state;
+        const { receta, loading, sending } = this.state;
         const {
             fetchingRecetas, fetchingAlimentos, fetchingUnidades,
             alimentos, unidadesDeMedida,
@@ -150,6 +156,8 @@ class RecetaForm extends Component {
         if (loading || fetchingRecetas || fetchingAlimentos || fetchingUnidades) {
             return <Loader />
         }
+
+        const { nombre, descripcion, instrucciones, ingredientes } = receta;
         return (
             <Container maxWidth="md">
                 <form onSubmit={this.sendReceta}>
@@ -195,13 +203,15 @@ class RecetaForm extends Component {
                             deleteIngrediente={this.deleteIngrediente}
                         />
                     </BorderedDiv>
-                    <Button
-                        className={classes.send}
-                        color="primary"
-                        variant="contained"
-                        type="submit"
-                        children="Guardar"
-                    />
+                    {sending ? <Loader /> : (
+                        <Button
+                            className={classes.send}
+                            color="primary"
+                            variant="contained"
+                            type="submit"
+                            children="Guardar"
+                        />
+                    )}
                 </form>
             </Container>
         )
@@ -221,7 +231,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getAlimentos: () => dispatch(getAlimentos()),
     getUnidades: () => dispatch(getUnidades()),
-    sendReceta: receta => dispatch(sendReceta(receta)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(RecetaForm))

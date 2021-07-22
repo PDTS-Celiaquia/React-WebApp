@@ -6,8 +6,8 @@ import Loader from '../components/common/Loader';
 const LoginPage = lazy(() => import("../components/auth/LoginPage"));
 const RegisterOperarioPage = lazy(() => import("../components/auth/RegisterOperarioPage"));
 const AnalisisCuestionario = lazy(() => import("../components/AnalisisCuestionario"));
-const RecetaForm = lazy(() => import("../components/RecetaForm"));
-const ListaRecetas = lazy(() => import("../components/ListaRecetas"));
+const RecetaForm = lazy(() => import("../components/recetas/RecetaForm"));
+const ListaRecetas = lazy(() => import("../components/recetas/ListaRecetas"));
 const ListaAlimentos = lazy(() => import("../components/alimentos/ListaAlimentos"));
 
 function MainRouter() {
