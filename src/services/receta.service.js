@@ -11,3 +11,7 @@ export async function getAllRecetas() {
 export async function saveReceta(receta) {
     return axiosInstance.put('/api/receta/', receta)
 }
+
+export async function deleteRecetaById(id) {
+    return axiosInstance.delete(`/api/receta/${id}`)
+}

@@ -5,6 +5,7 @@ const {
     requestAlimentos, successAlimentos, errorAlimentos,
     requestSendAlimento, successSendAlimento, errorSendAlimento,
     requestRecetas, successRecetas, errorRecetas,
+    requestDeleteRecetas, successDeleteRecetas, errorDeleteRecetas
 } = typeDefs
 
 const initState = {
@@ -36,17 +37,6 @@ export default function reducer(state = initState, { type, payload, error }) {
         case errorAlimentos:
             return { ...state, fetchingAlimentos: false, errorAlimentos: true, message: error }
 
-
-        case requestRecetas:
-            return { ...state, fetchingRecetas: true, errorRecetas: false }
-
-        case successRecetas:
-            return { ...state, fetchingRecetas: false, recetas: payload }
-
-        case errorRecetas:
-            return { ...state, fetchingRecetas: false, errorRecetas: true, message: error }
-
-
         case requestUnidades:
             return { ...state, fetchingUnidades: true, errorUnidades: false }
 
@@ -71,6 +61,28 @@ export default function reducer(state = initState, { type, payload, error }) {
 
         case errorSendAlimento:
             return { ...state, sendingAlimento: false, errorSendAlimento: true, message: error }
+
+        case requestRecetas:
+            return { ...state, fetchingRecetas: true, errorRecetas: false }
+
+        case successRecetas:
+            return { ...state, fetchingRecetas: false, recetas: payload }
+
+        case errorRecetas:
+            return { ...state, fetchingRecetas: false, errorRecetas: true, message: error }
+
+        case requestDeleteRecetas:
+            return { ...state, fetchingRecetas: true, errorRecetas: false }
+
+        case successDeleteRecetas:
+            return {
+                ...state,
+                fetchingRecetas: false,
+                recetas: state.recetas.filter(receta => receta.id !== payload.id)
+            }
+
+        case errorDeleteRecetas:
+            return { ...state, fetchingRecetas: false, errorRecetas: true, message: error }
 
         default:
             return state

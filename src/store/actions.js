@@ -1,5 +1,5 @@
 import axiosInstance from '../services/axiosInstance';
-import { getAllRecetas, saveReceta } from "../services/receta.service";
+import { getAllRecetas, deleteRecetaById } from "../services/receta.service";
 
 export const typeDefs = {
     requestUnidades: "REQUEST_UNIDADES",
@@ -17,6 +17,10 @@ export const typeDefs = {
     requestRecetas: "REQUEST_RECETAS",
     successRecetas: "SUCCESS_RECETAS",
     errorRecetas: "ERROR_RECETAS",
+
+    requestDeleteRecetas: "REQUEST_DELETE_RECETAS",
+    successDeleteRecetas: "SUCCESS_DELETE_RECETAS",
+    errorDeleteRecetas: "ERROR_DELETE_RECETAS",
 }
 
 const {
@@ -24,6 +28,7 @@ const {
     requestAlimentos, successAlimentos, errorAlimentos,
     requestSendAlimento, successSendAlimento, errorSendAlimento,
     requestRecetas, successRecetas, errorRecetas,
+    requestDeleteRecetas, successDeleteRecetas, errorDeleteRecetas
 } = typeDefs
 
 
@@ -64,6 +69,16 @@ export function getRecetas() {
         getAllRecetas().then(
             response => dispatch({ type: successRecetas, payload: response.data }),
             error => dispatch({ type: errorRecetas, error })
+        )
+    }
+}
+
+export function deleteReceta(id) {
+    return dispatch => {
+        dispatch({ type: requestDeleteRecetas })
+        deleteRecetaById(id).then(
+            () => dispatch({ type: successDeleteRecetas, payload: { id } }),
+            error => dispatch({ type: errorDeleteRecetas, error })
         )
     }
 }

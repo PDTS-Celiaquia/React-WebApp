@@ -1,52 +1,27 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Button, Container, IconButton, InputAdornment, TextField, withStyles
+    Button, Container, IconButton, InputAdornment, Modal, Paper, TextField, Typography, withStyles
 } from '@material-ui/core'
-import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from 'react-router-dom';
-import { getRecetas } from '../../store/actions'
+import { deleteReceta, getRecetas } from '../../store/actions'
 import BorderedDiv from '../common/BorderedDiv'
-import TypographyRe from '../common/TypographyRe';
 import Loader from '../common/Loader';
+import ResumenReceta from './ResumenReceta';
 
-
-const ResumenReceta = withStyles(theme => ({
-    container: {
-        display: "flex",
-        margin: theme.spacing(1),
-    },
-    title: {
-        margin: "auto",
-        marginLeft: theme.spacing(2),
-        flexGrow: 1,
-    },
-}))(
-    ({ receta, re, classes }) => {
-
-        return (
-            <div className={classes.container}>
-                <TypographyRe
-                    className={`titulo ${classes.title}`}
-                    title={receta.nombre}
-                    variant="h6"
-                    re={re}
-                />
-                <IconButton component={Link} to={location => `${location.pathname}/${receta.id}`}>
-                    <EditIcon className="icon" />
-                </IconButton>
-                <IconButton onClick={() => console.log("Todavia no arme el flujo para borrar :)")}>
-                    <DeleteIcon color="error" />
-                </IconButton>
-            </div>
-        )
-    }
-)
 
 const style = theme => ({
+    modal: {
+        marginTop: "20%",
+        padding: theme.spacing(5),
+        textAlign: "center"
+    },
+    modalButtons: {
+        margin: theme.spacing(2),
+        marginBottom: 0
+    },
     header: {
         margin: theme.spacing(2)
     },
@@ -75,18 +50,17 @@ class ListaRecetas extends Component {
         super(props)
 
         this.state = {
-            filter: ""
+            filter: "",
+            deleteModalOpen: false,
+            recetaDeleteId: null
         }
 
-        this.refresh = this.refresh.bind(this)
         this.onFilterChange = this.onFilterChange.bind(this)
+        this.openDeleteModal = this.openDeleteModal.bind(this)
+        this.closeDeleteModal = this.closeDeleteModal.bind(this)
     }
 
     componentDidMount() {
-        this.refresh()
-    }
-
-    refresh() {
         this.props.getRecetas()
     }
 
@@ -95,58 +69,102 @@ class ListaRecetas extends Component {
         this.setState({ filter: value })
     }
 
+    openDeleteModal(id) {
+        this.setState({ deleteModalOpen: true, recetaDeleteId: id })
+    }
+
+    deleteReceta(id) {
+        this.props.deleteReceta(id)
+        this.closeDeleteModal()
+    }
+
+    closeDeleteModal() {
+        this.setState({ deleteModalOpen: false, recetaDeleteId: null })
+    }
+
     render() {
-        const { filter } = this.state
+        const { filter, deleteModalOpen, recetaDeleteId } = this.state
         const { recetas, fetching, classes } = this.props
         if (!recetas && !fetching) {
             return <p>Error</p>
         }
         const re = filter ? new RegExp(filter, 'ig') : null
-        const filteredList = re != null ?
-            recetas.filter(receta => receta.nombre.match(re))
-            : recetas
+        const filteredList = re != null ? recetas.filter(receta => receta.nombre.match(re)) : recetas
         return (
-            <Container maxWidth="md">
-                <div className={classes.header}>
-                    <TextField
-                        className={classes.filter}
-                        value={filter}
-                        onChange={this.onFilterChange}
-                        variant="outlined"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <Button
-                        className={classes.new}
-                        variant="contained"
-                        color="primary"
-                        component={Link}
-                        to={location => `${location.pathname}/new`}
-                    >
-                        Nueva Receta
-                    </Button>
-                    <IconButton
-                        className={classes.refresh}
-                        onClick={this.refresh}
-                    >
-                        <RefreshIcon />
-                    </IconButton>
-                </div>
-                {fetching ? <Loader /> :
-                    <div className={classes.list}>
-                        {filteredList.map(receta => (
-                            <BorderedDiv className={classes.item} key={receta.id}>
-                                <ResumenReceta receta={receta} re={re} />
-                            </BorderedDiv>
-                        ))}
+            <>
+                <Modal
+                    open={deleteModalOpen}
+                    onClose={this.closeDeleteModal}
+                >
+                    <Container maxWidth="sm">
+                        <Paper className={classes.modal}>
+                            <Typography variant="body1">
+                                ¿Está seguro que quiere eliminar la receta?
+                            </Typography>
+                            <Button
+                                className={classes.modalButtons}
+                                variant="contained"
+                                color="primary"
+                                onClick={this.closeDeleteModal}
+                            >
+                                CANCELAR
+                            </Button>
+                            <Button
+                                className={classes.modalButtons}
+                                variant="contained"
+                                onClick={() => this.deleteReceta(recetaDeleteId)}
+                            >
+                                ELIMINAR
+                            </Button>
+                        </Paper>
+                    </Container>
+                </Modal>
+                <Container maxWidth="md">
+                    <div className={classes.header}>
+                        <TextField
+                            className={classes.filter}
+                            value={filter}
+                            onChange={this.onFilterChange}
+                            variant="outlined"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <Button
+                            className={classes.new}
+                            variant="contained"
+                            color="primary"
+                            component={Link}
+                            to={location => `${location.pathname}/new`}
+                        >
+                            Nueva Receta
+                        </Button>
+                        <IconButton
+                            className={classes.refresh}
+                            onClick={this.refresh}
+                        >
+                            <RefreshIcon />
+                        </IconButton>
                     </div>
-                }
-            </Container>
+                    {fetching ? <Loader /> :
+                        <div className={classes.list}>
+                            {filteredList.map(receta => (
+                                <BorderedDiv className={classes.item} key={receta.id}>
+                                    <ResumenReceta
+                                        receta={receta}
+                                        re={re}
+                                        onDelete={() => this.openDeleteModal(receta.id)}
+                                    />
+                                </BorderedDiv>
+                            ))}
+                        </div>
+                    }
+                </Container>
+            </>
         )
     }
 }
@@ -158,6 +176,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getRecetas: () => dispatch(getRecetas()),
+    deleteReceta: id => dispatch(deleteReceta(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(ListaRecetas))
