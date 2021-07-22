@@ -5,7 +5,6 @@ const {
     requestAlimentos, successAlimentos, errorAlimentos,
     requestSendAlimento, successSendAlimento, errorSendAlimento,
     requestRecetas, successRecetas, errorRecetas,
-    requestSendReceta, successSendReceta, errorSendReceta,
 } = typeDefs
 
 const initState = {
@@ -21,8 +20,8 @@ const initState = {
     fetchingUnidades: false,
     errorUnidades: false,
 
-    sendingReceta: false,
-    errorSendReceta: false,
+    sendingAlimento: false,
+    errorSendAlimento: null
 }
 
 export default function reducer(state = initState, { type, payload, error }) {
@@ -56,16 +55,6 @@ export default function reducer(state = initState, { type, payload, error }) {
 
         case errorUnidades:
             return { ...state, fetchingUnidades: false, errorUnidades: true, message: error }
-
-
-        case requestSendReceta:
-            return { ...state, sendingReceta: true, errorSendReceta: false }
-
-        case successSendReceta:
-            return { ...state, sendingReceta: false }
-
-        case errorSendReceta:
-            return { ...state, sendingReceta: false, errorSendReceta: true, message: error }
 
 
         case requestSendAlimento:
