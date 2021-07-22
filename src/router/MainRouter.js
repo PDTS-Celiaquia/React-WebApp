@@ -8,7 +8,7 @@ const RegisterOperarioPage = lazy(() => import("../components/auth/RegisterOpera
 const AnalisisCuestionario = lazy(() => import("../components/AnalisisCuestionario"));
 const RecetaForm = lazy(() => import("../components/RecetaForm"));
 const ListaRecetas = lazy(() => import("../components/ListaRecetas"));
-const ListaAlimentos = lazy(() => import("../components/ListaAlimentos"));
+const ListaAlimentos = lazy(() => import("../components/alimentos/ListaAlimentos"));
 
 function MainRouter() {
   return (
