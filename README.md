@@ -4,4 +4,5 @@ Aplicación web desarrollada para una Práctica de Desarrollo Tecnológico Socia
 
 # Start
 Teniendo node instalado 
+``` npm install ```
 ``` npm start ```
