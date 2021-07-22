@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, CircularProgress, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import { Button, Container, TextField, Typography, withStyles } from '@material-ui/core';
 import { loginService } from '../../services/auth';
+import Loader from '../common/Loader';
 
 const styles = theme => ({
     title: {
@@ -12,11 +13,6 @@ const styles = theme => ({
     element: {
         marginTop: theme.spacing(2),
         margin: "auto"
-    },
-    circularProgress: {
-        marginTop: theme.spacing(2),
-        margin: "auto",
-        display: "flex"
     }
 })
 
@@ -45,7 +41,7 @@ class LoginPage extends Component {
         e.preventDefault()
         this.setState({ error: null, loading: true })
         const { email, password } = this.state
-        loginService({email, password})
+        loginService({ email, password })
             .then(
                 () => this.props.history.push("/"),
                 error => this.setState({ error, loading: false })
@@ -90,12 +86,8 @@ class LoginPage extends Component {
                         value={password}
                         onChange={this.handleChange}
                     />
-                    {loading ?
-                        <CircularProgress
-                            className={classes.circularProgress}
-                            color="primary"
-                        />
-                        : (<Button
+                    {loading ? <Loader /> : (
+                        <Button
                             className={classes.element}
                             type="submit"
                             fullWidth
@@ -103,8 +95,8 @@ class LoginPage extends Component {
                             variant="contained"
                         >
                             INGRESAR
-                        </Button>)
-                    }
+                        </Button>
+                    )}
                 </form>
             </Container>
         )

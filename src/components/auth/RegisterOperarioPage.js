@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, CircularProgress, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import { Button, Container, TextField, Typography, withStyles } from '@material-ui/core';
 import { registerService } from '../../services/auth';
+import Loader from '../common/Loader';
 
 const styles = theme => ({
     title: {
@@ -12,13 +13,7 @@ const styles = theme => ({
     element: {
         marginTop: theme.spacing(2),
         margin: "auto"
-    },
-    circularProgress: {
-        marginTop: theme.spacing(2),
-        margin: "auto",
-        display: "flex"
-    },
-
+    }
 })
 
 class RegisterOperarioPage extends Component {
@@ -139,12 +134,8 @@ class RegisterOperarioPage extends Component {
                         value={passwordConfirm}
                         onChange={this.handleChange}
                     />
-                    {loading ?
-                        <CircularProgress
-                            className={classes.circularProgress}
-                            color="primary"
-                        />
-                        : (<Button
+                    {loading ? <Loader /> : (
+                        <Button
                             className={classes.element}
                             type="submit"
                             fullWidth
@@ -152,8 +143,8 @@ class RegisterOperarioPage extends Component {
                             variant="contained"
                         >
                             ACEPTAR
-                        </Button>)
-                    }
+                        </Button>
+                    )}
                 </form>
             </Container>
         )
