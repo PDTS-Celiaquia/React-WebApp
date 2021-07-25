@@ -4,8 +4,8 @@ import NavBar from '../components/nav/NavBar';
 import Loader from '../components/common/Loader';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import roles from '../constants/roles';
-import HomePage from '../components/HomePage';
 
+const HomePage = lazy(() => import('../components/HomePage'));
 const LoginPage = lazy(() => import("../components/auth/LoginPage"));
 const RegisterOperarioPage = lazy(() => import("../components/auth/RegisterOperarioPage"));
 const AnalisisCuestionario = lazy(() => import("../components/AnalisisCuestionario"));
