@@ -20,6 +20,13 @@ export const deleteUser = () => {
     localStorage.removeItem("user");
 };
 
+export const isLoggedIn = (roles) => {
+    const user = getUser();
+    return user &&
+        (!roles || roles.includes(user.role)) &&
+        Date.now() < jwt_decode(user.accessToken).exp * 1000;
+}
+
 export async function loginService(data) {
     return axiosInstance
         .post("/api/usuario/login", data)
@@ -30,7 +37,7 @@ export async function loginService(data) {
                 role: decoded.role,
                 accessToken: accessToken
             }
-            if(user.role === roles.PACIENTE) {
+            if (user.role === roles.PACIENTE) {
                 console.log("Intento de login por parte de un paciente")
                 throw Error('Solo se permite el acceso a usuarios administradores u operarios.')
             }
