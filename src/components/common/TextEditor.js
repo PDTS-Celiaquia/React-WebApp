@@ -28,7 +28,7 @@ class TextEditor extends Component {
             value: createValueFromString("<p></p>"),
         }
 
-        this.onChange = this.onChange.bind(this)
+        this.onChange = this.handleChange.bind(this)
     }
 
     componentDidMount() {
@@ -38,7 +38,7 @@ class TextEditor extends Component {
         }
     }
 
-    onChange(value) {
+    handleChange(value) {
         this.setState({ value })
         const { onChange, id } = this.props
         if (onChange) {
@@ -65,7 +65,7 @@ class TextEditor extends Component {
                     className={classes.editor}
                     id={id}
                     value={value}
-                    onChange={this.onChange}
+                    onChange={this.handleChange}
                 />
             </div>
         )
