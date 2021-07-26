@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {
     List, ListItem, ListItemText, IconButton, Divider, ListItemIcon} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { SwipeableDrawer } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { deleteUser } from '../../services/auth';
 import { withRouter } from 'react-router-dom';
 import roles from '../../constants/roles';
-import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
 
-const styles = theme => ({
+import MenuIcon from '@material-ui/icons/Menu';
+import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined';
+    
+    const styles = theme => ({
     list: {
         width: 250,
     },
@@ -76,6 +78,10 @@ class TemporaryDrawer extends Component {
                             <ListItemText primary="Registrar un operario" />
                         </ListItem>
                     )}
+                    <ListItem button component={Link} to="/cambiarContraseña">
+                        <ListItemIcon><VpnKeyOutlinedIcon/></ListItemIcon>
+                        <ListItemText primary="Cambiar contraseña" />
+                    </ListItem>
                     <ListItem button onClick={this.unlog}>
                         <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                         <ListItemText primary="Cerrar sesión" />
