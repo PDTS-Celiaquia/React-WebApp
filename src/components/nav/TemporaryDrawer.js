@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {
-    List, ListItem, ListItemText, IconButton, //Divider
-} from '@material-ui/core';
+    List, ListItem, ListItemText, IconButton, Divider, ListItemIcon} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { SwipeableDrawer } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { deleteUser } from '../../services/auth';
+import { withRouter } from 'react-router-dom';
+import roles from '../../constants/roles';
+import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
 
 const styles = theme => ({
     list: {
@@ -20,11 +24,13 @@ class TemporaryDrawer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            open: false
+            open: false,
+            logged: true
         }
 
         this.toggleDrawer = this.toggleDrawer.bind(this)
         this.list = this.list.bind(this)
+        this.unlog = this.unlog.bind(this)
     }
 
     toggleDrawer(open) {
@@ -36,8 +42,13 @@ class TemporaryDrawer extends Component {
         }
     };
 
+    unlog() {
+        deleteUser()
+        this.props.history.push('/')
+    }
+
     list() {
-        const { classes } = this.props
+        const { classes, role } = this.props
         return (
             <div
                 className={classes.list}
@@ -52,18 +63,30 @@ class TemporaryDrawer extends Component {
                     <ListItem button component={Link} to="/alimento">
                         <ListItemText primary="Alimentos" />
                     </ListItem>
-                    <ListItem button component={Link} to="/cuestionario">
-                        <ListItemText primary="Analisis Cuestionario" />
-                    </ListItem>
+                    {role === roles.ADMIN && (
+                        <ListItem button component={Link} to="/cuestionario">
+                            <ListItemText primary="Analisis Cuestionario" />
+                        </ListItem>
+                    )}
                 </List>
-                {/* <Divider />
+                <Divider />
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                    {role === roles.ADMIN && (
+                        <ListItem button component={Link} to="/registerOperario">
+                            <ListItemIcon><AddBoxOutlinedIcon/></ListItemIcon>
+                            <ListItemText primary="Registrar un operario" />
+                        </ListItem>
+                    )}
+                    <ListItem button onClick={this.unlog}>
+                        <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                        <ListItemText primary="Cerrar sesión" />
+                    </ListItem>
+                    {/* {['All mail', 'Trash', 'Spam'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemText primary={text} />
                         </ListItem>
-                    ))}
-                </List> */}
+                    ))} */}
+                </List>
             </div>
         );
     }
@@ -88,4 +111,4 @@ class TemporaryDrawer extends Component {
 }
 
 
-export default withStyles(styles)(TemporaryDrawer)
+export default withRouter(withStyles(styles)(TemporaryDrawer))
