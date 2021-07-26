@@ -1,6 +1,6 @@
+import React from 'react'
 import { AppBar, Container, IconButton, Toolbar, Typography, withStyles } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
-import React, { Fragment } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import TemporaryDrawer from './TemporaryDrawer'
 import { getUser } from '../../services/auth'

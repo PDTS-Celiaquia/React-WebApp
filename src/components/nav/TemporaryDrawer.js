@@ -24,8 +24,7 @@ class TemporaryDrawer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            open: false,
-            logged: true
+            open: false
         }
 
         this.toggleDrawer = this.toggleDrawer.bind(this)
