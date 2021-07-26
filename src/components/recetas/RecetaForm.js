@@ -58,13 +58,13 @@ class RecetaForm extends Component {
                 recetaInit = (await findRecetaById(id)).data;
             }
             if (recetaInit) {
-                this.setState({ receta: recetaInit, loading: false, edit: true })
+                this.setState({ receta: recetaInit, loading: false })
             } else {
                 // TODO: handle invalid id
                 console.log("Add invalid id toast or screen")
             }
         } else {
-            this.setState({ receta: newReceta, loading: false, edit: false })
+            this.setState({ receta: newReceta, loading: false })
         }
     }
 

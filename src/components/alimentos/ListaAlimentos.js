@@ -54,7 +54,6 @@ class ListaAlimentos extends Component {
 
     handleAccesibleChange(e) {
         const {id, checked} =  e.target;
-        console.log(id, checked)
         this.props.changeAlimentoAccesible(parseInt(id), checked)
     }
 
