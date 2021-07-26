@@ -1,25 +1,33 @@
-import React from 'react'
-import { BrowserRouter, Route } from 'react-router-dom';
-import NavBar from '../components/common/NavBar.js';
-import AnalisisCuestionario from '../components/AnalisisCuestionario.js';
-import ListaAlimentos from '../components/ListaAlimentos.js';
-import ListaRecetas from '../components/ListaRecetas.js';
-import RecetaForm from '../components/RecetaForm.js'
-import LoginPage from '../components/auth/LoginPage.js';
-import RegisterOperarioPage from '../components/auth/RegisterOperarioPage.js';
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import NavBar from '../components/nav/NavBar';
+import Loader from '../components/common/Loader';
+import PrivateRoute from '../components/auth/PrivateRoute';
+import roles from '../constants/roles';
+
+const HomePage = lazy(() => import('../components/HomePage'));
+const LoginPage = lazy(() => import("../components/auth/LoginPage"));
+const RegisterOperarioPage = lazy(() => import("../components/auth/RegisterOperarioPage"));
+const AnalisisCuestionario = lazy(() => import("../components/AnalisisCuestionario"));
+const RecetaForm = lazy(() => import("../components/recetas/RecetaForm"));
+const ListaRecetas = lazy(() => import("../components/recetas/ListaRecetas"));
+const ListaAlimentos = lazy(() => import("../components/alimentos/ListaAlimentos"));
 
 function MainRouter() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <Route path="/" component={NavBar} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/registerOperario" component={RegisterOperarioPage} />
-        <Route path="/cuestionario" component={AnalisisCuestionario} />
-        <Route path="/receta/:id" component={RecetaForm} />
-        <Route exact path="/receta" component={ListaRecetas} />
-        <Route exact path="/alimento" component={ListaAlimentos} />
-      </div>
+      <NavBar />
+      <Suspense fallback={<Loader />}>
+        <Switch>
+          <PrivateRoute exact path="/" component={HomePage} />
+          <Route path="/login" component={LoginPage} />
+          <PrivateRoute roles={[roles.ADMIN]} path="/registerOperario" component={RegisterOperarioPage} />
+          <PrivateRoute path="/cuestionario" component={AnalisisCuestionario} />
+          <PrivateRoute path="/receta/:id" component={RecetaForm} />
+          <PrivateRoute exact path="/receta" component={ListaRecetas} />
+          <PrivateRoute exact path="/alimento" component={ListaAlimentos} />
+        </Switch>
+      </Suspense>
     </BrowserRouter>
   );
 }

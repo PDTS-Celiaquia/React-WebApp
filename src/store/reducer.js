@@ -5,7 +5,7 @@ const {
     requestAlimentos, successAlimentos, errorAlimentos,
     requestSendAlimento, successSendAlimento, errorSendAlimento,
     requestRecetas, successRecetas, errorRecetas,
-    requestSendReceta, successSendReceta, errorSendReceta,
+    requestDeleteRecetas, successDeleteRecetas, errorDeleteRecetas
 } = typeDefs
 
 const initState = {
@@ -21,8 +21,8 @@ const initState = {
     fetchingUnidades: false,
     errorUnidades: false,
 
-    sendingReceta: false,
-    errorSendReceta: false,
+    sendingAlimento: false,
+    errorSendAlimento: null
 }
 
 export default function reducer(state = initState, { type, payload, error }) {
@@ -37,17 +37,6 @@ export default function reducer(state = initState, { type, payload, error }) {
         case errorAlimentos:
             return { ...state, fetchingAlimentos: false, errorAlimentos: true, message: error }
 
-
-        case requestRecetas:
-            return { ...state, fetchingRecetas: true, errorRecetas: false }
-
-        case successRecetas:
-            return { ...state, fetchingRecetas: false, recetas: payload }
-
-        case errorRecetas:
-            return { ...state, fetchingRecetas: false, errorRecetas: true, message: error }
-
-
         case requestUnidades:
             return { ...state, fetchingUnidades: true, errorUnidades: false }
 
@@ -58,23 +47,15 @@ export default function reducer(state = initState, { type, payload, error }) {
             return { ...state, fetchingUnidades: false, errorUnidades: true, message: error }
 
 
-        case requestSendReceta:
-            return { ...state, sendingReceta: true, errorSendReceta: false }
-
-        case successSendReceta:
-            return { ...state, sendingReceta: false }
-
-        case errorSendReceta:
-            return { ...state, sendingReceta: false, errorSendReceta: true, message: error }
-
-
         case requestSendAlimento:
-            const { alimento, index } = payload
-            const alimentos = [
-                ...state.alimentos.slice(0, index),
-                alimento,
-                ...state.alimentos.slice(index + 1)
-            ]
+            const { alimentoId, esAccesible } = payload
+            const alimentos = state.alimentos.map(al => {
+                if (al.numero === alimentoId) {
+                    return { ...al, esAccesible };
+                } else {
+                    return { ...al };
+                }
+            })
             return { ...state, sendingAlimento: true, errorSendAlimento: false, alimentos }
 
         case successSendAlimento:
@@ -82,6 +63,28 @@ export default function reducer(state = initState, { type, payload, error }) {
 
         case errorSendAlimento:
             return { ...state, sendingAlimento: false, errorSendAlimento: true, message: error }
+
+        case requestRecetas:
+            return { ...state, fetchingRecetas: true, errorRecetas: false }
+
+        case successRecetas:
+            return { ...state, fetchingRecetas: false, recetas: payload }
+
+        case errorRecetas:
+            return { ...state, fetchingRecetas: false, errorRecetas: true, message: error }
+
+        case requestDeleteRecetas:
+            return { ...state, fetchingRecetas: true, errorRecetas: false }
+
+        case successDeleteRecetas:
+            return {
+                ...state,
+                fetchingRecetas: false,
+                recetas: state.recetas.filter(receta => receta.id !== payload.id)
+            }
+
+        case errorDeleteRecetas:
+            return { ...state, fetchingRecetas: false, errorRecetas: true, message: error }
 
         default:
             return state

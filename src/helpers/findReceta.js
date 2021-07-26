@@ -1,6 +1,6 @@
-export function findRecetaById(recetas, idReceta) {
+export function findReceta(recetas, id) {
     for (let receta of recetas) {
-        if (receta.idReceta === parseInt(idReceta)) return receta
+        if (receta.id === parseInt(id)) return receta
     }
     return null
 }

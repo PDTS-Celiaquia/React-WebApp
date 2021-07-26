@@ -1,44 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Checkbox, Container, IconButton, InputAdornment, TextField, withStyles
+    Container, IconButton, InputAdornment, TextField, withStyles
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { getAlimentos, sendAlimento } from '../store/actions'
-import BorderedDiv from './common/BorderedDiv'
-import TypographyRe from './common/TypographyRe';
-import Loader from './common/Loader';
+import { changeAlimentoAccesible, getAlimentos } from '../../store/actions'
+import BorderedDiv from '../common/BorderedDiv'
+import Loader from '../common/Loader';
+import ResumenAlimentos from './ResumenAlimentos';
 
-
-const ResumenAlimento = withStyles(theme => ({
-    container: {
-        display: "flex",
-        margin: theme.spacing(1),
-        '&:hover': {
-            backgroundColor: theme.palette.grey['100']
-        }
-    },
-    title: {
-        margin: "auto",
-        marginLeft: theme.spacing(2),
-        flexGrow: 1,
-    },
-}))(
-    ({ alimento, re, onChange, classes }) => {
-        return (
-            <div className={classes.container}>
-                <TypographyRe
-                    className={`titulo ${classes.title}`}
-                    title={alimento.nombre}
-                    variant="h6"
-                    re={re}
-                />
-                <Checkbox onChange={onChange} checked={alimento.esAccesible} />
-            </div>
-        )
-    }
-)
 
 const style = theme => ({
     header: {
@@ -64,8 +35,8 @@ class ListaAlimentos extends Component {
         }
 
         this.refresh = this.refresh.bind(this)
-        this.onFilterChange = this.onFilterChange.bind(this)
-        this.onAccesibleChange = this.onAccesibleChange.bind(this)
+        this.handleFilterChange = this.handleFilterChange.bind(this)
+        this.handleAccesibleChange = this.handleAccesibleChange.bind(this)
     }
 
     componentDidMount() {
@@ -76,22 +47,21 @@ class ListaAlimentos extends Component {
         this.props.getAlimentos()
     }
 
-    onFilterChange(e) {
+    handleFilterChange(e) {
         const { value } = e.target
         this.setState({ filter: value })
     }
 
-    onAccesibleChange(i, e) {
-        const alimento = { ...this.props.alimentos[i], esAccesible: e.target.checked }
-        console.log(alimento)
-        this.props.sendAlimento(alimento, i)
+    handleAccesibleChange(e) {
+        const {id, checked} =  e.target;
+        this.props.changeAlimentoAccesible(parseInt(id), checked)
     }
 
     render() {
         const { filter } = this.state
         const { alimentos, fetching, classes } = this.props
         if (!alimentos) {
-            return <p>Loading...</p>
+            return <Loader />
         }
         const re = filter ? new RegExp(filter, 'ig') : null
         const filteredList = re != null ?
@@ -104,7 +74,7 @@ class ListaAlimentos extends Component {
                         <TextField
                             className={classes.filter}
                             value={filter}
-                            onChange={this.onFilterChange}
+                            onChange={this.handleFilterChange}
                             variant="outlined"
                             InputProps={{
                                 startAdornment: (
@@ -123,11 +93,11 @@ class ListaAlimentos extends Component {
                     </div>
                     {fetching ? <Loader /> :
                         <BorderedDiv className={classes.list}>
-                            {filteredList.map((alimento, i) => (
-                                <ResumenAlimento
+                            {filteredList.map((alimento) => (
+                                <ResumenAlimentos
                                     key={alimento.numero}
                                     alimento={alimento}
-                                    onChange={e => this.onAccesibleChange(i, e)}
+                                    onChange={this.handleAccesibleChange}
                                     re={re}
                                 />
                             ))}
@@ -146,7 +116,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getAlimentos: () => dispatch(getAlimentos()),
-    sendAlimento: (alimento, index) => dispatch(sendAlimento(alimento, index)),
+    changeAlimentoAccesible: (alimentoId, esAccesible) => dispatch(changeAlimentoAccesible(alimentoId, esAccesible)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(ListaAlimentos))

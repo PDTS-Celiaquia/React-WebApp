@@ -2,6 +2,11 @@ import { Typography, withStyles } from '@material-ui/core';
 import React, { Component } from 'react'
 import RichTextEditor from 'react-rte';
 
+function createValueFromString(string) {
+    return RichTextEditor.createValueFromString(string, "html")
+}
+
+
 const style = theme => ({
     container: {
         margin: theme.spacing(2),
@@ -20,13 +25,20 @@ class TextEditor extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: RichTextEditor.createValueFromString("<p></p>", "html"),
+            value: createValueFromString("<p></p>"),
         }
 
-        this.onChange = this.onChange.bind(this)
+        this.onChange = this.handleChange.bind(this)
     }
 
-    onChange(value) {
+    componentDidMount() {
+        const { value } = this.props;
+        if (value) {
+            this.setState({ value: createValueFromString(value) })
+        }
+    }
+
+    handleChange(value) {
         this.setState({ value })
         const { onChange, id } = this.props
         if (onChange) {
@@ -53,7 +65,7 @@ class TextEditor extends Component {
                     className={classes.editor}
                     id={id}
                     value={value}
-                    onChange={this.onChange}
+                    onChange={this.handleChange}
                 />
             </div>
         )

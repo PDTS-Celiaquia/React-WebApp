@@ -1,4 +1,6 @@
-import axiosInstance from '../services/axiosInstance'
+import { getAllAlimentos, setAlimentoAccesible } from '../services/alimento.service';
+import axiosInstance from '../services/axiosInstance';
+import { getAllRecetas, deleteRecetaById } from "../services/receta.service";
 
 export const typeDefs = {
     requestUnidades: "REQUEST_UNIDADES",
@@ -17,9 +19,9 @@ export const typeDefs = {
     successRecetas: "SUCCESS_RECETAS",
     errorRecetas: "ERROR_RECETAS",
 
-    requestSendReceta: "REQUEST_SEND_RECETA",
-    successSendReceta: "SUCCESS_SEND_RECETA",
-    errorSendReceta: "ERROR_SEND_RECETA",
+    requestDeleteRecetas: "REQUEST_DELETE_RECETAS",
+    successDeleteRecetas: "SUCCESS_DELETE_RECETAS",
+    errorDeleteRecetas: "ERROR_DELETE_RECETAS",
 }
 
 const {
@@ -27,7 +29,7 @@ const {
     requestAlimentos, successAlimentos, errorAlimentos,
     requestSendAlimento, successSendAlimento, errorSendAlimento,
     requestRecetas, successRecetas, errorRecetas,
-    requestSendReceta, successSendReceta, errorSendReceta,
+    requestDeleteRecetas, successDeleteRecetas, errorDeleteRecetas
 } = typeDefs
 
 
@@ -35,52 +37,49 @@ export function getUnidades() {
     return dispatch => {
         dispatch({ type: requestUnidades })
         axiosInstance.get('/api/unidades').then(
-            response => dispatch({ type: successUnidades, payload: response }),
+            response => dispatch({ type: successUnidades, payload: response.data }),
             error => dispatch({ type: errorUnidades, error })
         )
     }
 }
 
-
 export function getAlimentos() {
     return dispatch => {
         dispatch({ type: requestAlimentos })
-        axiosInstance.get('/api/alimento').then(
-            response => dispatch({ type: successAlimentos, payload: response }),
+        getAllAlimentos().then(
+            response => dispatch({ type: successAlimentos, payload: response.data }),
             error => dispatch({ type: errorAlimentos, error })
         )
     }
 }
 
-export function sendAlimento(alimento, index) {
+export function changeAlimentoAccesible(alimentoId, esAccesible) {
     return dispatch => {
-        dispatch({ type: requestSendAlimento, payload: { alimento, index } })
-        axiosInstance.post('/api/alimento/', alimento).then(
+        dispatch({ type: requestSendAlimento, payload: { alimentoId, esAccesible } })
+        setAlimentoAccesible(alimentoId, esAccesible).then(
             () => dispatch({ type: successSendAlimento }),
             error => dispatch({ type: errorSendAlimento, error })
         )
     }
 }
 
-
 export function getRecetas() {
     return dispatch => {
         dispatch({ type: requestRecetas })
-        axiosInstance.get('/api/receta').then(
-            response => dispatch({ type: successRecetas, payload: response }),
+        getAllRecetas().then(
+            response => dispatch({ type: successRecetas, payload: response.data }),
             error => dispatch({ type: errorRecetas, error })
         )
     }
 }
 
-export function sendReceta(receta) {
+export function deleteReceta(id) {
     return dispatch => {
-        dispatch({ type: requestSendReceta })
-        const route = `/api/receta${typeof receta.idReceta !== "undefined" ? '/modificar' : ''}`
-        // si la receta tiene id es una modificación
-        axiosInstance.post(route, receta).then(
-            () => dispatch({ type: successSendReceta }),
-            error => dispatch({ type: errorSendReceta, error })
+        dispatch({ type: requestDeleteRecetas })
+        deleteRecetaById(id).then(
+            () => dispatch({ type: successDeleteRecetas, payload: { id } }),
+            error => dispatch({ type: errorDeleteRecetas, error })
         )
     }
 }
+

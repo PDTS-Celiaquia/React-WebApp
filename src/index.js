@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import MainRouter from './router/MainRouter';
-import getStore from './store'
+import App from './App';
 
 // if in production do not log debug messages
 if (process.env.NODE_ENV === "production") {
@@ -12,9 +10,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 ReactDOM.render(
-    <Provider store={getStore()}>
-      <MainRouter />
-    </Provider>,
+    <App />,
   document.getElementById('root')
 );
 
