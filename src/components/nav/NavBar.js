@@ -22,7 +22,6 @@ function NavBar({ children, location, classes }) {
     const homeButton = location.pathname !== "/";
     const user = getUser();
     const role = user? user.role : null;
-    console.log(role)
     return (
         <AppBar position="static" className={classes.bar}>
             <Container maxWidth="xl">
