@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, TextField, withStyles } from '@material-ui/core'
+import { Button, Container, TextField, withStyles, Snackbar } from '@material-ui/core'
 import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
 import BorderedDiv from '../common/BorderedDiv';
@@ -8,6 +8,7 @@ import { findReceta } from '../../helpers/findReceta';
 import { getAlimentos, getUnidades } from '../../store/actions';
 import Loader from '../common/Loader';
 import { findRecetaById, saveReceta } from '../../services/receta.service';
+import MuiAlert from '@material-ui/lab/Alert'
 
 const newReceta = {
     nombre: "",
@@ -33,6 +34,7 @@ class RecetaForm extends Component {
         this.state = {
             receta: null,
             loading: true,
+            successToastOpen: false,
             sending: false
         }
 
@@ -41,6 +43,7 @@ class RecetaForm extends Component {
         this.onChangeIngredienteText = this.onChangeIngredienteText.bind(this)
         this.deleteIngrediente = this.deleteIngrediente.bind(this)
         this.addIngrediente = this.addIngrediente.bind(this)
+        this.handleToastClose = this.handleToastClose.bind(this);
         this.sendReceta = this.sendReceta.bind(this)
     }
 
@@ -142,11 +145,18 @@ class RecetaForm extends Component {
         e.preventDefault();
         this.setState({ sending: true });
         const receta = (await saveReceta(this.state.receta)).data;
-        this.setState({ receta, sending: false })
+        this.setState({ receta, successToastOpen: true, sending: false })
     }
 
+    handleToastClose(e, reason){
+        if (reason === 'clickaway') {
+          return;
+        }
+        this.setState({successToastOpen: false});
+    };
+
     render() {
-        const { receta, loading, sending } = this.state;
+        const { receta, loading, successToastOpen, sending } = this.state;
         const {
             fetchingRecetas, fetchingAlimentos, fetchingUnidades,
             alimentos, unidadesDeMedida,
@@ -203,6 +213,18 @@ class RecetaForm extends Component {
                             deleteIngrediente={this.deleteIngrediente}
                         />
                     </BorderedDiv>
+
+                    <Snackbar
+                        open={successToastOpen} 
+                        autoHideDuration={2000} 
+                        onClose={this.handleToastClose}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    >
+                        <MuiAlert variant="filled" onClose={this.handleToastClose} severity="success">
+                            Receta guardada correctamente
+                        </MuiAlert>
+                    </Snackbar>
+
                     {sending ? <Loader /> : (
                         <Button
                             className={classes.send}

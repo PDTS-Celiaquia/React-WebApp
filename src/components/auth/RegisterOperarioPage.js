@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import { Button, Container, TextField, Typography, withStyles, Snackbar } from '@material-ui/core';
 import { registerService } from '../../services/auth';
 import Loader from '../common/Loader';
+import MuiAlert from '@material-ui/lab/Alert';
+
 
 const styles = theme => ({
     title: {
@@ -28,20 +30,20 @@ class RegisterOperarioPage extends Component {
             password: "",
             passwordConfirm: "",
             passwordsNotMatch: false,
+            successToastOpen: false,
             error: null,
             loading: false
         }
 
-        this.handleChange = this.handleChange.bind(this)
-        this.register = this.register.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.handleToastClose = this.handleToastClose.bind(this);
+        this.register = this.register.bind(this);
     }
 
     handleChange(e) {
         const { id, value } = e.target;
         this.setState({ [id]: value })
     }
-
-
 
     register(e) {
         e.preventDefault()
@@ -50,7 +52,7 @@ class RegisterOperarioPage extends Component {
             this.setState({ passwordsNotMatch: false, error: null, loading: true })
             registerService({ nombre, apellido, email, password })
                 .then(
-                    () => this.props.history.push("/"),
+                    () => this.setState({successToastOpen: true, loading: false}),
                     error => this.setState({ error, loading: false })
                 )
         } else {
@@ -58,8 +60,15 @@ class RegisterOperarioPage extends Component {
         }
     }
 
+    handleToastClose(e, reason){
+        if (reason === 'clickaway') {
+          return;
+        }
+        this.setState({successToastOpen: false});
+    };
+
     render() {
-        const { nombre, apellido, email, password, passwordConfirm, passwordsNotMatch, error, loading } = this.state
+        const { nombre, apellido, email, password, passwordConfirm, passwordsNotMatch, successToastOpen, error, loading } = this.state
         const { classes } = this.props
         return (
             <Container className={classes.container} maxWidth="xs">
@@ -134,6 +143,16 @@ class RegisterOperarioPage extends Component {
                         value={passwordConfirm}
                         onChange={this.handleChange}
                     />
+                    <Snackbar 
+                        open={successToastOpen} 
+                        autoHideDuration={2000} 
+                        onClose={this.handleToastClose}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    >
+                        <MuiAlert variant="filled" onClose={this.handleToastClose} severity="success">
+                            Operario registrado correctamente
+                        </MuiAlert>
+                    </Snackbar>
                     {loading ? <Loader /> : (
                         <Button
                             className={classes.element}

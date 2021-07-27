@@ -1,9 +1,9 @@
+import React from 'react'
 import { AppBar, Container, IconButton, Toolbar, Typography, withStyles } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
-import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import TemporaryDrawer from './TemporaryDrawer'
-
+import { getUser } from '../../services/auth'
 const styles = theme => ({
     bar: {
         // background: 'transparent',
@@ -19,22 +19,27 @@ const styles = theme => ({
 
 
 function NavBar({ children, location, classes }) {
-    const homeButton = location.pathname !== "/"
+    const homeButton = location.pathname !== "/";
+    const user = getUser();
+    const role = user? user.role : null;
     return (
         <AppBar position="static" className={classes.bar}>
             <Container maxWidth="xl">
                 <Toolbar>
-                    <TemporaryDrawer />
-                    <IconButton
-                        className={classes.homeIcon}
-                        edge="start"
-                        component={Link}
-                        to="/"
-                        aria-label="home"
-                        style={homeButton ? {} : { visibility: "hidden" }}
-                    >
-                        <HomeIcon />
-                    </IconButton>
+                {role && (<> 
+                        <TemporaryDrawer role={role}/>
+                        <IconButton
+                            className={classes.homeIcon}
+                            edge="start"
+                            component={Link}
+                            to="/"
+                            aria-label="home"
+                            style={homeButton ? {} : { visibility: "hidden" }}
+                        >
+                            <HomeIcon />
+                        </IconButton> 
+                    </>
+                )}
                     <Typography variant="h6" className={classes.title}>
                         Celiaquia
                     </Typography>

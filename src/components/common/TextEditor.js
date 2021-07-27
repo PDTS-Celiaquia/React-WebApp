@@ -28,7 +28,7 @@ class TextEditor extends Component {
             value: createValueFromString("<p></p>"),
         }
 
-        this.onChange = this.handleChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     componentDidMount() {
