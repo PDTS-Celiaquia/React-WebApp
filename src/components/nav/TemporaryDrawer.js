@@ -31,7 +31,7 @@ class TemporaryDrawer extends Component {
 
         this.toggleDrawer = this.toggleDrawer.bind(this)
         this.list = this.list.bind(this)
-        this.unlog = this.unlog.bind(this)
+        this.logout = this.logout.bind(this)
     }
 
     toggleDrawer(open) {
@@ -43,7 +43,7 @@ class TemporaryDrawer extends Component {
         }
     };
 
-    unlog() {
+    logout() {
         deleteUser()
         this.props.history.push('/')
     }
@@ -82,7 +82,7 @@ class TemporaryDrawer extends Component {
                         <ListItemIcon><VpnKeyOutlinedIcon/></ListItemIcon>
                         <ListItemText primary="Cambiar contraseña" />
                     </ListItem>
-                    <ListItem button onClick={this.unlog}>
+                    <ListItem button onClick={this.logout}>
                         <ListItemIcon><ExitToAppIcon/></ListItemIcon>
                         <ListItemText primary="Cerrar sesión" />
                     </ListItem>
