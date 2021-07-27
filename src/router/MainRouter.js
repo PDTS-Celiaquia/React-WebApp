@@ -23,7 +23,7 @@ function MainRouter() {
           <PrivateRoute exact path="/" component={HomePage} />
           <Route path="/login" component={LoginPage} />
           <PrivateRoute roles={[roles.ADMIN]} path="/registerOperario" component={RegisterOperarioPage} />
-          <PrivateRoute path="/cambiarContraseña" component={ModifyPasswordPage} />
+          <PrivateRoute path="/modifyPassword" component={ModifyPasswordPage} />
           <PrivateRoute path="/cuestionario" component={AnalisisCuestionario} />
           <PrivateRoute path="/receta/:id" component={RecetaForm} />
           <PrivateRoute exact path="/receta" component={ListaRecetas} />
