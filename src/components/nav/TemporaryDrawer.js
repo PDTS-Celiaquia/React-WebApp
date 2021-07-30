@@ -78,7 +78,7 @@ class TemporaryDrawer extends Component {
                             <ListItemText primary="Registrar un operario" />
                         </ListItem>
                     )}
-                    <ListItem button component={Link} to="/cambiarContraseña">
+                    <ListItem button component={Link} to="/modifyPassword">
                         <ListItemIcon><VpnKeyOutlinedIcon/></ListItemIcon>
                         <ListItemText primary="Cambiar contraseña" />
                     </ListItem>
