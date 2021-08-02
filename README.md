@@ -5,5 +5,5 @@ Aplicación web desarrollada para una Práctica de Desarrollo Tecnológico Socia
 Teniendo node instalado   
 ```
 npm install
-npm dev
+npm run dev
 ```
