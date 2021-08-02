@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Button, Container, IconButton, InputAdornment, Modal, Paper, TextField, Typography, withStyles
+    Button, Container, IconButton, InputAdornment, TextField, Typography, withStyles
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';

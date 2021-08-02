@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, TextField, withStyles, Snackbar, Typography, Modal, Paper, IconButton } from '@material-ui/core'
+import { Button, Container, TextField, withStyles, Typography, Modal, Paper, IconButton } from '@material-ui/core'
 import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
 import BorderedDiv from '../common/BorderedDiv';
