@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, TextField, withStyles, Snackbar } from '@material-ui/core'
+import { Button, Container, TextField, withStyles, Snackbar, Typography, Icon, IconButton } from '@material-ui/core'
 import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
 import BorderedDiv from '../common/BorderedDiv';
@@ -9,6 +9,8 @@ import { getAlimentos, getUnidades } from '../../store/actions';
 import Loader from '../common/Loader';
 import { findRecetaById, saveReceta } from '../../services/receta.service';
 import MuiAlert from '@material-ui/lab/Alert'
+import Delete from '@material-ui/icons/Delete';
+import { Link } from 'react-router-dom';
 
 const newReceta = {
     nombre: "",
@@ -18,6 +20,30 @@ const newReceta = {
 }
 
 const style = theme => ({
+    header: {
+        margin: theme.spacing(2),
+        display: "flex",
+        marginLeft: 0,
+        marginRight: 0,
+    },
+    title: {
+        margin: theme.spacing(2),
+        marginLeft: 0,
+        color: theme.palette.text.primary,
+        margin: "auto",
+    },
+    editButton: {
+        margin: theme.spacing(1),
+    },
+    deleteButton: {
+        backgroundColor: theme.palette.error.main,
+        color: theme.palette.error.contrastText,
+        margin: theme.spacing(1),
+        marginRight: 0,
+        "&:hover": {
+            backgroundColor: theme.palette.error.dark,
+        }
+    },
     item: {
         marginTop: theme.spacing(2),
     },
@@ -47,7 +73,7 @@ class RecetaForm extends Component {
         this.sendReceta = this.sendReceta.bind(this)
     }
 
-    async componentDidMount() {        
+    async componentDidMount() {
         this.props.getAlimentos()
         this.props.getUnidades()
 
@@ -148,28 +174,45 @@ class RecetaForm extends Component {
         this.setState({ receta, successToastOpen: true, sending: false })
     }
 
-    handleToastClose(e, reason){
+    handleToastClose(e, reason) {
         if (reason === 'clickaway') {
-          return;
+            return;
         }
-        this.setState({successToastOpen: false});
+        this.setState({ successToastOpen: false });
     };
 
     render() {
         const { receta, loading, successToastOpen, sending } = this.state;
         const {
             fetchingRecetas, fetchingAlimentos, fetchingUnidades,
-            alimentos, unidadesDeMedida,
-            classes
+            alimentos, unidadesDeMedida, edit,
+            match, classes
         } = this.props
 
         if (loading || fetchingRecetas || fetchingAlimentos || fetchingUnidades) {
             return <Loader />
         }
-
         const { nombre, descripcion, instrucciones, ingredientes } = receta;
         return (
             <Container maxWidth="md">
+                <div className={classes.header}>
+                    <Typography className={classes.title} variant="h4">
+                        {edit ? "Editar Receta" : "Visualización de receta"}
+                    </Typography>
+                    {!edit && <>
+                        <Button
+                            className={classes.editButton}
+                            color="primary"
+                            variant="contained"
+                            component={Link}
+                            to={`${match.url}/edit`}
+                        >
+                            Editar
+                        </Button>
+                        <Button className={classes.deleteButton} variant="contained">Eliminar</Button>
+                    </>
+                    }
+                </div>
                 <form onSubmit={this.sendReceta}>
                     <TextField
                         id="nombre"
@@ -180,6 +223,9 @@ class RecetaForm extends Component {
                         variant="outlined"
                         required
                         fullWidth
+                        InputProps={{
+                            readOnly: !edit,
+                        }}
                     />
                     <TextField
                         id="descripcion"
@@ -191,13 +237,18 @@ class RecetaForm extends Component {
                         multiline
                         required
                         fullWidth
+                        InputProps={{
+                            readOnly: !edit,
+                        }}
                     />
                     <BorderedDiv className={classes.item}>
                         <TextEditor
+                            readOnly={true}
                             id="instrucciones"
                             label="Instrucciones"
                             value={instrucciones}
                             onChange={this.onChange}
+                            readOnly={!edit}
                         />
                     </BorderedDiv>
                     <BorderedDiv className={classes.item}>
@@ -211,12 +262,13 @@ class RecetaForm extends Component {
                             onChangeIngredienteText={this.onChangeIngredienteText}
                             addIngrediente={this.addIngrediente}
                             deleteIngrediente={this.deleteIngrediente}
+                            readOnly={!edit}
                         />
                     </BorderedDiv>
 
                     <Snackbar
-                        open={successToastOpen} 
-                        autoHideDuration={2000} 
+                        open={successToastOpen}
+                        autoHideDuration={2000}
                         onClose={this.handleToastClose}
                         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                     >
@@ -225,15 +277,19 @@ class RecetaForm extends Component {
                         </MuiAlert>
                     </Snackbar>
 
-                    {sending ? <Loader /> : (
-                        <Button
-                            className={classes.send}
-                            color="primary"
-                            variant="contained"
-                            type="submit"
-                            children="Guardar"
-                        />
-                    )}
+                    {edit &&
+                        <>
+                            {sending ? <Loader /> : (
+                                <Button
+                                    className={classes.send}
+                                    color="primary"
+                                    variant="contained"
+                                    type="submit"
+                                    children="Guardar"
+                                />
+                            )}
+                        </>
+                    }
                 </form>
             </Container>
         )

@@ -24,7 +24,7 @@ class IngredientesForm extends Component {
         const {
             label, ingredientes, alimentos, unidadesDeMedida,
             onChangeIngredienteCombo, onChangeIngredienteText,
-            addIngrediente, deleteIngrediente,
+            addIngrediente, deleteIngrediente, readOnly,
             classes
         } = this.props
 
@@ -44,15 +44,17 @@ class IngredientesForm extends Component {
                                 (e) => onChangeIngredienteText(index, e)
                             }
                             deleteIngrediente={() => deleteIngrediente(index)}
+                            readOnly={readOnly}
                             {...ingrediente}
                         />
                     ))}
                 </div>
+                {!readOnly &&
                 <div className={classes.addContainer}>
                     <IconButton onClick={addIngrediente}>
                         <AddIcon className="icon" />
                     </IconButton>
-                </div>
+                </div>}
             </div>
         )
     }
