@@ -66,7 +66,7 @@ class TextEditor extends Component {
                     </Typography>
                 }
                 {readOnly ?
-                    <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(value.toString("html")) }}/>
+                    <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(value.toString("html")) }} />
                     :
                     <RichTextEditor
                         editorClassName={classes.innerEditor}
@@ -74,7 +74,8 @@ class TextEditor extends Component {
                         id={id}
                         value={value}
                         onChange={this.handleChange}
-                    />}
+                    />
+                }
             </div>
         )
     }
