@@ -1,8 +1,6 @@
 import React from 'react'
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import TypographyRe from '../common/TypographyRe';
-import { IconButton, withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const style = theme => ({
@@ -14,24 +12,21 @@ const style = theme => ({
         margin: "auto",
         marginLeft: theme.spacing(2),
         flexGrow: 1,
+        textDecoration: "none"
     },
 })
 
-function ResumenReceta({ receta, re, onDelete, classes }) {
+function ResumenReceta({ receta, re, classes }) {
     return (
         <div className={classes.container}>
             <TypographyRe
                 className={`titulo ${classes.title}`}
                 title={receta.nombre}
                 variant="h6"
+                component={Link}
+                to={location => `${location.pathname}/${receta.id}`}
                 re={re}
             />
-            <IconButton component={Link} to={location => `${location.pathname}/${receta.id}`}>
-                <EditIcon className="icon" />
-            </IconButton>
-            <IconButton onClick={onDelete}>
-                <DeleteIcon color="error" />
-            </IconButton>
         </div>
     )
 }

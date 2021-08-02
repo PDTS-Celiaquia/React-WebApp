@@ -25,7 +25,10 @@ const style = theme => ({
     header: {
         margin: theme.spacing(2)
     },
-    filter: {
+    title: {
+        margin: theme.spacing(2),
+        marginLeft: 0,
+        color: theme.palette.text.primary,
     },
     new: {
         margin: theme.spacing(1),
@@ -34,9 +37,7 @@ const style = theme => ({
     },
     refresh: {
         float: 'right',
-    },
-    list: {
-
+        color: theme.palette.text.primary,
     },
     item: {
         margin: theme.spacing(2),
@@ -121,8 +122,10 @@ class ListaRecetas extends Component {
                 </Modal>
                 <Container maxWidth="md">
                     <div className={classes.header}>
+                        <Typography className={classes.title} variant="h4">
+                            Listado de recetas
+                        </Typography>
                         <TextField
-                            className={classes.filter}
                             value={filter}
                             onChange={this.onFilterChange}
                             variant="outlined"
@@ -151,17 +154,16 @@ class ListaRecetas extends Component {
                         </IconButton>
                     </div>
                     {fetching ? <Loader /> :
-                        <div className={classes.list}>
+                        <>
                             {filteredList.map(receta => (
                                 <BorderedDiv className={classes.item} key={receta.id}>
                                     <ResumenReceta
                                         receta={receta}
                                         re={re}
-                                        onDelete={() => this.openDeleteModal(receta.id)}
                                     />
                                 </BorderedDiv>
                             ))}
-                        </div>
+                        </>
                     }
                 </Container>
             </>
