@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppBar, Container, IconButton, Toolbar, Typography, withStyles } from '@material-ui/core'
+import { AppBar, Container, Toolbar, Typography, withStyles } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import TemporaryDrawer from './TemporaryDrawer'
 import { getUser } from '../../services/auth'
