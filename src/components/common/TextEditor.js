@@ -60,11 +60,13 @@ class TextEditor extends Component {
         const { value } = this.state
         return (
             <div className={classes.container}>
-                {label && <Typography className="titulo" variant="body1" children={label} />}
+                {label &&
+                    <Typography className="titulo" variant="body1">
+                        {label}
+                    </Typography>
+                }
                 {readOnly ?
-                    <div
-                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(value.toString("html")) }}
-                    />
+                    <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(value.toString("html")) }}/>
                     :
                     <RichTextEditor
                         editorClassName={classes.innerEditor}

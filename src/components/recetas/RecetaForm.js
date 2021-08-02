@@ -285,8 +285,9 @@ class RecetaForm extends Component {
                                     color="primary"
                                     variant="contained"
                                     type="submit"
-                                    children="Guardar"
-                                />
+                                >
+                                    Guardar
+                                </Button>
                             )}
                         </>
                     }

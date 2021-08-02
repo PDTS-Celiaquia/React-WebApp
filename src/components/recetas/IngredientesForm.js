@@ -30,7 +30,11 @@ class IngredientesForm extends Component {
 
         return (
             <div className={classes.container}>
-                {label && <Typography className="titulo" variant="body1" children={label} />}
+                {label &&
+                    <Typography className="titulo" variant="body1">
+                        {label}
+                    </Typography>
+                }
                 <div className={classes.ingredientesContainer}>
                     {ingredientes.map((ingrediente, index) => (
                         <IngredienteForm
@@ -50,11 +54,11 @@ class IngredientesForm extends Component {
                     ))}
                 </div>
                 {!readOnly &&
-                <div className={classes.addContainer}>
-                    <IconButton onClick={addIngrediente}>
-                        <AddIcon className="icon" />
-                    </IconButton>
-                </div>}
+                    <div className={classes.addContainer}>
+                        <IconButton onClick={addIngrediente}>
+                            <AddIcon className="icon" />
+                        </IconButton>
+                    </div>}
             </div>
         )
     }
