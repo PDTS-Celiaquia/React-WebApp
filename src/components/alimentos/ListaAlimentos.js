@@ -95,7 +95,7 @@ class ListaAlimentos extends Component {
                         <BorderedDiv className={classes.list}>
                             {filteredList.map((alimento) => (
                                 <ResumenAlimentos
-                                    key={alimento.numero}
+                                    key={alimento.id}
                                     alimento={alimento}
                                     onChange={this.handleAccesibleChange}
                                     re={re}

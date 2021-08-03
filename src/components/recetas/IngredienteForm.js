@@ -70,7 +70,7 @@ function IngredienteForm({
                 options={alimentos}
                 value={alimento}
                 label="Alimentos"
-                getOptionSelected={(option, value) => option.numero === value.numero}
+                getOptionSelected={(option, value) => option.id === value.id}
                 onChangeIngredienteCombo={onChangeIngredienteCombo}
                 readOnly={readOnly}
 

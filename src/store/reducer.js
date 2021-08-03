@@ -50,7 +50,7 @@ export default function reducer(state = initState, { type, payload, error }) {
         case requestSendAlimento:
             const { alimentoId, esAccesible } = payload
             const alimentos = state.alimentos.map(al => {
-                if (al.numero === alimentoId) {
+                if (al.id === alimentoId) {
                     return { ...al, esAccesible };
                 } else {
                     return { ...al };
