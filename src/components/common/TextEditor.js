@@ -1,6 +1,7 @@
 import { Typography, withStyles } from '@material-ui/core';
 import React, { Component } from 'react'
 import RichTextEditor from 'react-rte';
+import sanitizeHtml from 'sanitize-html';
 
 function createValueFromString(string) {
     return RichTextEditor.createValueFromString(string, "html")
@@ -55,18 +56,26 @@ class TextEditor extends Component {
     }
 
     render() {
-        const { id, label, classes } = this.props
+        const { id, label, readOnly, classes } = this.props
         const { value } = this.state
         return (
             <div className={classes.container}>
-                {label && <Typography className="titulo" variant="body1" children={label} />}
-                <RichTextEditor
-                    editorClassName={classes.innerEditor}
-                    className={classes.editor}
-                    id={id}
-                    value={value}
-                    onChange={this.handleChange}
-                />
+                {label &&
+                    <Typography className="titulo" variant="body1">
+                        {label}
+                    </Typography>
+                }
+                {readOnly ?
+                    <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(value.toString("html")) }} />
+                    :
+                    <RichTextEditor
+                        editorClassName={classes.innerEditor}
+                        className={classes.editor}
+                        id={id}
+                        value={value}
+                        onChange={this.handleChange}
+                    />
+                }
             </div>
         )
     }
