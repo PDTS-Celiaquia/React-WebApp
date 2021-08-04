@@ -5,21 +5,20 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { changeAlimentoAccesible, getAlimentos } from '../../store/actions'
+import { getAlimentos } from '../../store/actions'
 import BorderedDiv from '../common/BorderedDiv'
 import Loader from '../common/Loader';
-import ResumenAlimentos from './ResumenAlimentos';
+import ElementoLista from '../common/ElementoLista';
 
 
 const style = theme => ({
     header: {
         margin: theme.spacing(2)
     },
-    filter: {},
     refresh: {
         float: 'right',
     },
-    list: {
+    item: {
         margin: theme.spacing(2),
     }
 })
@@ -36,7 +35,6 @@ class ListaAlimentos extends Component {
 
         this.refresh = this.refresh.bind(this)
         this.handleFilterChange = this.handleFilterChange.bind(this)
-        this.handleAccesibleChange = this.handleAccesibleChange.bind(this)
     }
 
     componentDidMount() {
@@ -52,11 +50,6 @@ class ListaAlimentos extends Component {
         this.setState({ filter: value })
     }
 
-    handleAccesibleChange(e) {
-        const {id, checked} =  e.target;
-        this.props.changeAlimentoAccesible(parseInt(id), checked)
-    }
-
     render() {
         const { filter } = this.state
         const { alimentos, fetching, classes } = this.props
@@ -68,43 +61,42 @@ class ListaAlimentos extends Component {
             alimentos.filter(alimento => alimento.nombre.match(re))
             : alimentos
         return (
-            <>
-                <Container maxWidth="md">
-                    <div className={classes.header}>
-                        <TextField
-                            className={classes.filter}
-                            value={filter}
-                            onChange={this.handleFilterChange}
-                            variant="outlined"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                        <IconButton
-                            className={classes.refresh}
-                            onClick={this.refresh}
-                        >
-                            <RefreshIcon />
-                        </IconButton>
-                    </div>
-                    {fetching ? <Loader /> :
-                        <BorderedDiv className={classes.list}>
-                            {filteredList.map((alimento) => (
-                                <ResumenAlimentos
-                                    key={alimento.id}
-                                    alimento={alimento}
-                                    onChange={this.handleAccesibleChange}
+            <Container maxWidth="md">
+                <div className={classes.header}>
+                    <TextField
+                        value={filter}
+                        onChange={this.handleFilterChange}
+                        variant="outlined"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                    <IconButton
+                        className={classes.refresh}
+                        onClick={this.refresh}
+                    >
+                        <RefreshIcon />
+                    </IconButton>
+                </div>
+                {fetching ? <Loader /> :
+                    <>
+                        {filteredList.map((alimento) => (
+                            <BorderedDiv className={classes.item} key={alimento.id}>
+                                <ElementoLista
+                                    id={alimento.id}
+                                    title={alimento.nombre}
+                                    variant="h6"
                                     re={re}
                                 />
-                            ))}
-                        </BorderedDiv>
-                    }
-                </Container>
-            </>
+                            </BorderedDiv>
+                        ))}
+                    </>
+                }
+            </Container>
         )
     }
 }
@@ -116,7 +108,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getAlimentos: () => dispatch(getAlimentos()),
-    changeAlimentoAccesible: (alimentoId, esAccesible) => dispatch(changeAlimentoAccesible(alimentoId, esAccesible)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(ListaAlimentos))

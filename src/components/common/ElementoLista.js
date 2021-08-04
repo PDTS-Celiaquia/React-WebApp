@@ -1,9 +1,9 @@
-import React from 'react'
-import TypographyRe from '../common/TypographyRe';
+import React from 'react';
 import { withStyles } from '@material-ui/core';
+import TypographyRe from './TypographyRe';
 import { Link } from 'react-router-dom';
 
-const style = theme => ({
+const styles = theme => ({
     container: {
         display: "flex",
         margin: theme.spacing(1),
@@ -16,20 +16,18 @@ const style = theme => ({
     },
 })
 
-function ResumenReceta({ receta, re, classes }) {
+function ElementoLista({ id, classes, ...rest }) {
     return (
         <div className={classes.container}>
             <TypographyRe
                 className={`titulo ${classes.title}`}
-                title={receta.nombre}
-                variant="h6"
                 component={Link}
-                to={location => `${location.pathname}/${receta.id}`}
-                re={re}
+                to={location => `${location.pathname}/${id}`}
+                {...rest}
             />
         </div>
     )
 }
 
 
-export default withStyles(style)(ResumenReceta);
+export default withStyles(styles)(ElementoLista)

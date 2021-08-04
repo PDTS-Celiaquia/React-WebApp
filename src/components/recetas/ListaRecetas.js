@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { getRecetas } from '../../store/actions'
 import BorderedDiv from '../common/BorderedDiv'
 import Loader from '../common/Loader';
-import ResumenReceta from './ResumenReceta';
+import ElementoLista from '../common/ElementoLista';
 
 
 const style = theme => ({
@@ -107,8 +107,10 @@ class ListaRecetas extends Component {
                     <>
                         {filteredList.map(receta => (
                             <BorderedDiv className={classes.item} key={receta.id}>
-                                <ResumenReceta
-                                    receta={receta}
+                                <ElementoLista
+                                    id={receta.id}
+                                    title={receta.nombre}
+                                    variant="h6"
                                     re={re}
                                 />
                             </BorderedDiv>
