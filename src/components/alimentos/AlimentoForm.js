@@ -82,7 +82,6 @@ class AlimentoForm extends Component {
                     <Typography className={classes.title} variant="h4">
                         Vista de Alimento
                     </Typography>
-
                 </div>
                 {loading ? <Loader /> :
                     <>

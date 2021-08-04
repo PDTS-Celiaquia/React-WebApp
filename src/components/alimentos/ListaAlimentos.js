@@ -1,22 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Container, IconButton, InputAdornment, TextField, withStyles
+    Container, IconButton, InputAdornment, TextField, Typography, withStyles
 } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import { getAlimentos } from '../../store/actions'
 import BorderedDiv from '../common/BorderedDiv'
 import Loader from '../common/Loader';
 import ElementoLista from '../common/ElementoLista';
+import { Refresh, Search } from '@material-ui/icons';
 
 
 const style = theme => ({
     header: {
         margin: theme.spacing(2)
     },
+    title: {
+        margin: theme.spacing(2),
+        marginLeft: 0,
+        color: theme.palette.text.primary,
+    },
+    new: {
+        margin: theme.spacing(1),
+        marginRight: 0,
+        float: "right",
+    },
     refresh: {
         float: 'right',
+        color: theme.palette.text.primary,
     },
     item: {
         margin: theme.spacing(2),
@@ -63,14 +73,17 @@ class ListaAlimentos extends Component {
         return (
             <Container maxWidth="md">
                 <div className={classes.header}>
+                    <Typography className={classes.title} variant="h4">
+                        Listado de alimentos
+                    </Typography>
                     <TextField
                         value={filter}
-                        onChange={this.handleFilterChange}
+                        onChange={this.onFilterChange}
                         variant="outlined"
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon />
+                                    <Search />
                                 </InputAdornment>
                             ),
                         }}
@@ -79,7 +92,7 @@ class ListaAlimentos extends Component {
                         className={classes.refresh}
                         onClick={this.refresh}
                     >
-                        <RefreshIcon />
+                        <Refresh />
                     </IconButton>
                 </div>
                 {fetching ? <Loader /> :

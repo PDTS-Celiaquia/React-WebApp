@@ -4,7 +4,7 @@ import {
     Button, Container, IconButton, InputAdornment, TextField, Typography, withStyles
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import Refresh from '@material-ui/icons/Refresh';
 import { Link } from 'react-router-dom';
 import { getRecetas } from '../../store/actions'
 import BorderedDiv from '../common/BorderedDiv'
@@ -100,7 +100,7 @@ class ListaRecetas extends Component {
                         className={classes.refresh}
                         onClick={this.refresh}
                     >
-                        <RefreshIcon />
+                        <Refresh />
                     </IconButton>
                 </div>
                 {fetching ? <Loader /> :
