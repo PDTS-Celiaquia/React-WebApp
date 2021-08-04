@@ -5,6 +5,7 @@ import Loader from '../components/common/Loader';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import roles from '../constants/roles';
 import ModifyPasswordPage from '../components/auth/ModifyPasswordPage';
+import AlimentoForm from '../components/alimentos/AlimentoForm';
 
 const HomePage = lazy(() => import('../components/HomePage'));
 const LoginPage = lazy(() => import("../components/auth/LoginPage"));
@@ -29,6 +30,7 @@ function MainRouter() {
           <PrivateRoute path="/receta/:id" edit={false} component={RecetaForm} />
           <PrivateRoute exact path="/receta" component={ListaRecetas} />
           <PrivateRoute exact path="/alimento" component={ListaAlimentos} />
+          <PrivateRoute exact path="/alimento/:id" component={AlimentoForm} />
         </Switch>
       </Suspense>
     </BrowserRouter>
