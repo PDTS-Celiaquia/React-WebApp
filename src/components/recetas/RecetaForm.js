@@ -264,7 +264,8 @@ class RecetaForm extends Component {
                             className={classes.backIcon}
                             edge="start"
                             onClick={history.goBack}
-                            aria-label="back">
+                            aria-label="back"
+                        >
                             <ArrowBack />
                         </IconButton>
                         <Typography className={classes.title} variant="h4">
