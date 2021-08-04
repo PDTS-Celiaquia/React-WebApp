@@ -1,8 +1,11 @@
-import { Container, IconButton, Typography, withStyles } from '@material-ui/core';
+import { Button, Checkbox, Container, IconButton, Typography, withStyles } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { findById } from '../../helpers/findById';
+import { findAlimentoById } from '../../services/alimento.service';
 import { changeAlimentoAccesible } from '../../store/actions';
+import Loader from '../common/Loader';
 
 const styles = theme => ({
     header: {
@@ -26,19 +29,45 @@ class AlimentoForm extends Component {
     constructor(props) {
         super(props)
 
+        this.state = {
+            alimento: null,
+            loading: true
+        }
 
         this.handleAccesibleChange = this.handleAccesibleChange.bind(this)
     }
 
+    async componentDidMount() {
+        const { alimentos } = this.props;
+        const { id } = this.props.match.params
+        let alimento;
+        if (alimentos) {
+            alimento = findById(alimentos, id);
+        } else {
+            alimento = (await findAlimentoById(id)).data;
+        }
+        if (alimento) {
+            this.setState({ alimento, loading: false })
+        } else {
+            // TODO: handle invalid id
+            console.log("Add invalid id toast or screen")
+        }
+    }
+
     handleAccesibleChange(e) {
         const { checked } = e.target;
-        const { id } = this.props.match.params
-        this.props.changeAlimentoAccesible(parseInt(id), checked)
+        this.setState(state => ({ ...state, alimento: { ...state.alimento, esAccesible: checked } }))
+
+        // this.props.changeAlimentoAccesible(parseInt(id), checked)
+    }
+
+    saveChanges(e) {
+        console.log("Save changes")
     }
 
     render() {
         const { classes, history } = this.props;
-        const { id } = this.props.match.params
+        const { alimento, loading } = this.state;
         return (
             <Container maxWidth="md">
                 <div className={classes.header}>
@@ -55,7 +84,15 @@ class AlimentoForm extends Component {
                     </Typography>
 
                 </div>
-                <p>{`Vista de alimento id ${id}`}</p>
+                {loading ? <Loader /> :
+                    <>
+                        <p>{JSON.stringify(alimento)}</p>
+                        <Checkbox checked={alimento.esAccesible} onChange={this.handleAccesibleChange} />
+                        <Button color="primary" variant="contained" onClick={this.saveChanges}>
+                            GUARDAR CAMBIOS
+                        </Button>
+                    </>
+                }
             </Container>
         )
     }

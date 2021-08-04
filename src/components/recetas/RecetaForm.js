@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import IngredientesForm from './IngredientesForm';
 import BorderedDiv from '../common/BorderedDiv';
 import TextEditor from '../common/TextEditor'
-import { findReceta } from '../../helpers/findReceta';
+import { findById } from '../../helpers/findById';
 import { deleteReceta, getAlimentos, getUnidades } from '../../store/actions';
 import Loader from '../common/Loader';
 import { findRecetaById, saveReceta } from '../../services/receta.service';
@@ -96,7 +96,7 @@ class RecetaForm extends Component {
         if (id !== "new") {
             let recetaInit;
             if (recetas) {
-                recetaInit = findReceta(recetas, id);
+                recetaInit = findById(recetas, id);
             } else {
                 recetaInit = (await findRecetaById(id)).data;
             }
