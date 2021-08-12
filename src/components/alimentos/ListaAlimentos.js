@@ -78,7 +78,7 @@ class ListaAlimentos extends Component {
                     </Typography>
                     <TextField
                         value={filter}
-                        onChange={this.onFilterChange}
+                        onChange={this.handleFilterChange}
                         variant="outlined"
                         InputProps={{
                             startAdornment: (
