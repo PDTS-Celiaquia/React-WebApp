@@ -112,7 +112,7 @@ class AlimentoForm extends Component {
                             <p>acidos_grasos_monoinsaturados</p>
                             <p>acidos_grasos_poliinsaturados</p>
                             <p>colesterol</p>
-                            <p>Es accesible</p>
+                            <p>esAccesible</p>
                         </Grid>
                         <Grid item xs={6}>
                             <p>{alimento.nombre}</p>
@@ -141,11 +141,12 @@ class AlimentoForm extends Component {
                             <p>{alimento.acidos_grasos_monoinsaturados}</p>
                             <p>{alimento.acidos_grasos_poliinsaturados}</p>
                             <p>{alimento.colesterol}</p>
-                            <Checkbox checked={alimento.esAccesible} onChange={this.handleAccesibleChange} />
+                            <p>{alimento.esAccesible ? "si": "no"}</p>
+                            {/* <Checkbox checked={alimento.esAccesible} onChange={this.handleAccesibleChange} /> */}
                         </Grid>
-                        <Button color="primary" variant="contained" onClick={this.saveChanges}>
+                        {/* <Button color="primary" variant="contained" onClick={this.saveChanges}>
                             GUARDAR CAMBIOS
-                        </Button>
+                        </Button> */}
                     </Grid>
                 }
             </Container>
