@@ -20,6 +20,7 @@ function ResumenReceta({ receta, re, classes }) {
     return (
         <div className={classes.container}>
             <TypographyRe
+                id={`resumen-receta-${receta.id}`}
                 className={`titulo ${classes.title}`}
                 title={receta.nombre}
                 variant="h6"

@@ -79,6 +79,7 @@ class ListaRecetas extends Component {
                         value={filter}
                         onChange={this.onFilterChange}
                         variant="outlined"
+                        id="search"
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -88,6 +89,7 @@ class ListaRecetas extends Component {
                         }}
                     />
                     <Button
+                        id="edit-new"
                         className={classes.new}
                         variant="contained"
                         color="primary"
@@ -99,6 +101,7 @@ class ListaRecetas extends Component {
                     <IconButton
                         className={classes.refresh}
                         onClick={this.refresh}
+                        id="refresh"
                     >
                         <RefreshIcon />
                     </IconButton>

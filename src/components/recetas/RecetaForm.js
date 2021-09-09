@@ -239,6 +239,7 @@ class RecetaForm extends Component {
                                 :
                                 <>
                                     <Button
+                                        id="cancel-modal"
                                         className={classes.modalButtons}
                                         variant="contained"
                                         color="primary"
@@ -247,6 +248,7 @@ class RecetaForm extends Component {
                                         CANCELAR
                                     </Button>
                                     <Button
+                                        id="confirm-modal"
                                         className={classes.modalButtons}
                                         variant="contained"
                                         onClick={modalCallback}
@@ -261,6 +263,7 @@ class RecetaForm extends Component {
                 <Container maxWidth="md">
                     <div className={classes.header}>
                         <IconButton
+                            id="back"
                             className={classes.backIcon}
                             edge="start"
                             onClick={history.goBack}
@@ -272,6 +275,7 @@ class RecetaForm extends Component {
                         </Typography>
                         {!edit && <>
                             <Button
+                                id="edit-receta"
                                 className={classes.editButton}
                                 color="primary"
                                 variant="contained"
@@ -281,6 +285,7 @@ class RecetaForm extends Component {
                                 Editar
                             </Button>
                             <Button
+                                id="delete-receta"
                                 className={classes.deleteButton}
                                 variant="contained"
                                 onClick={() => this.openModal(DELETE_TEXT, this.deleteReceta)}
@@ -344,6 +349,7 @@ class RecetaForm extends Component {
 
                         {edit &&
                             <Button
+                                id="submit"
                                 className={classes.sendButton}
                                 color="primary"
                                 variant="contained"
