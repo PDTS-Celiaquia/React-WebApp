@@ -39,6 +39,7 @@ class IngredientesForm extends Component {
                     {ingredientes.map((ingrediente, index) => (
                         <IngredienteForm
                             key={index}
+                            index={index}
                             alimentos={alimentos}
                             unidadesDeMedida={unidadesDeMedida}
                             onChangeIngredienteCombo={
@@ -55,7 +56,10 @@ class IngredientesForm extends Component {
                 </div>
                 {!readOnly &&
                     <div className={classes.addContainer}>
-                        <IconButton onClick={addIngrediente}>
+                        <IconButton
+                            id="add-ingrediente"
+                            onClick={addIngrediente}
+                        >
                             <AddIcon className="icon" />
                         </IconButton>
                     </div>}

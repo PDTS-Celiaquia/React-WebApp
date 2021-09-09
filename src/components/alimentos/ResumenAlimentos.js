@@ -26,7 +26,7 @@ function ResumenAlimento({ alimento, re, onChange, classes }) {
                 variant="h6"
                 re={re}
             />
-            <Checkbox id={alimento.numero} onChange={onChange} checked={alimento.esAccesible} />
+            {/* <Checkbox id={alimento.numero} onChange={onChange} checked={alimento.esAccesible} /> */}
         </div>
     )
 }

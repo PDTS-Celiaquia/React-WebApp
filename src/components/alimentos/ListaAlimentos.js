@@ -69,12 +69,14 @@ class ListaAlimentos extends Component {
             : alimentos
         return (
             <>
+                <p>No recomendaría testear esto ya que va a cambiar bastante</p>
                 <Container maxWidth="md">
                     <div className={classes.header}>
                         <TextField
                             className={classes.filter}
                             value={filter}
                             onChange={this.handleFilterChange}
+                            id="search"
                             variant="outlined"
                             InputProps={{
                                 startAdornment: (
@@ -87,6 +89,7 @@ class ListaAlimentos extends Component {
                         <IconButton
                             className={classes.refresh}
                             onClick={this.refresh}
+                            id="refresh"
                         >
                             <RefreshIcon />
                         </IconButton>

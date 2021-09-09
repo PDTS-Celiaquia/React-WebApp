@@ -116,6 +116,7 @@ class ModifyPasswordPage extends Component {
                             <Button
                                 className={classes.element}
                                 type="submit"
+                                id="submit"
                                 fullWidth
                                 color="primary"
                                 variant="contained"

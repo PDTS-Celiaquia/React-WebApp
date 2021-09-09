@@ -57,7 +57,7 @@ const CustomAutocomplete = ({ id, label, onChangeIngredienteCombo, readOnly, ...
 
 
 function IngredienteForm({
-    alimentos = [], unidadesDeMedida = [],
+    index, alimentos = [], unidadesDeMedida = [],
     alimento, cantidad, unidadDeMedida,
     onChangeIngredienteCombo, onChangeIngredienteText, deleteIngrediente,
     readOnly, classes
@@ -95,7 +95,10 @@ function IngredienteForm({
                 readOnly={readOnly}
             />
             {!readOnly &&
-                <IconButton onClick={deleteIngrediente}>
+                <IconButton
+                    id={`delete-ingrediente-${index}`}
+                    onClick={deleteIngrediente}
+                >
                     <DeleteIcon color="error" />
                 </IconButton>
             }

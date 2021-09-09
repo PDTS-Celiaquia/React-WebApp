@@ -155,6 +155,7 @@ class RegisterOperarioPage extends Component {
                     </Snackbar>
                     {loading ? <Loader /> : (
                         <Button
+                            id="submit"
                             className={classes.element}
                             type="submit"
                             fullWidth
